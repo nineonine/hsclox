@@ -3,11 +3,11 @@ CC = clang
 C_SRC_DIR := src/c
 BIN_DIR := bin
 
-EXE := $(BIN_DIR)/ihsclox
+EXE := ihsclox
 
 CFLAGS := -Wall
 
-.PHONY: clean
+.PHONY: clean run
 
 clean:
 	find . -perm +100 -type f -delete
@@ -18,3 +18,6 @@ clean:
 
 build:
 	$(CC) $(CFLAGS) $(C_SRC_DIR)/main.c -o $(EXE)
+
+run:
+	@./$(EXE)
