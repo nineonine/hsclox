@@ -1,6 +1,7 @@
 CC = clang
 
 C_SRC_DIR := src/c
+SRCS := $(shell find $(C_SRC_DIR) -name *.c)
 BIN_DIR := bin
 
 EXE := ihsclox
@@ -17,7 +18,7 @@ clean:
 	rm -rf *.dSYM/
 
 build:
-	$(CC) $(CFLAGS) $(C_SRC_DIR)/main.c -o $(EXE)
+	$(CC) $(CFLAGS) $(SRCS) -o $(EXE)
 
 run:
 	@./$(EXE)
