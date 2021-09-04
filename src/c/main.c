@@ -4,18 +4,24 @@
 #include "utils.h"
 #include "vm.h"
 
+static void constOp(Chunk* chunk, double i, int line) {
+    int constant = addConstant(chunk, i);
+    writeChunk(chunk, OP_CONSTANT, line);
+    writeChunk(chunk, constant, line);
+}
+
 int main(int argc, const char* argv[]) {
     initVM();
     Chunk chunk;
     initChunk(&chunk);
 
-    int constant = addConstant(&chunk, 1.2);
-    writeChunk(&chunk, OP_CONSTANT, 1);
-    writeChunk(&chunk, constant, 1);
-
-    writeChunk(&chunk, OP_NEGATE,2);
-
-    writeChunk(&chunk, OP_RETURN, 8);
+    constOp(&chunk, 1.2, 1);
+    constOp(&chunk, 3.4, 1);
+    writeChunk(&chunk, OP_ADD, 1);
+    constOp(&chunk, 5.6, 1);
+    writeChunk(&chunk, OP_DIVIDE, 1);
+    writeChunk(&chunk, OP_NEGATE, 1);
+    writeChunk(&chunk, OP_RETURN, 1);
 
     // disassembleChunk(&chunk, "test chunk");
     interpret(&chunk);
