@@ -6,7 +6,7 @@ BIN_DIR := bin
 
 EXE := ihsclox
 
-CFLAGS := -Wall
+CFLAGS := -Wall -g
 
 .PHONY: clean run
 
