@@ -4,6 +4,8 @@
 #include "utils.h"
 #include "vm.h"
 
+#include "examples.h"
+
 static void constOp(Chunk* chunk, double i, int line) {
     int constant = addConstant(chunk, i);
     writeChunk(chunk, OP_CONSTANT, line);
@@ -15,13 +17,11 @@ int main(int argc, const char* argv[]) {
     Chunk chunk;
     initChunk(&chunk);
 
-    constOp(&chunk, 1.2, 1);
-    constOp(&chunk, 3.4, 1);
-    writeChunk(&chunk, OP_ADD, 1);
-    constOp(&chunk, 5.6, 1);
-    writeChunk(&chunk, OP_DIVIDE, 1);
-    writeChunk(&chunk, OP_NEGATE, 1);
-    writeChunk(&chunk, OP_RETURN, 1);
+    // EXAMPLE_1_mul_2_plus_3;
+    EXAMPLE_neg_2_plus_3_div_5;
+    // EXAMPLE_1_mul_2_plus_3;
+    // EXAMPLE_four_sub_3_mul_neg_2_WITHOUT_NEGATE;
+    // EXAMPLE_four_sub_3_mul_neg_2_WITHOUT_SUBTRACT;
 
     // disassembleChunk(&chunk, "test chunk");
     interpret(&chunk);
