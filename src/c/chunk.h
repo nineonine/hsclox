@@ -4,7 +4,7 @@
 #include "common.h"
 #include "value.h"
 
-#define LONG_CONSTANT_SIZE 3 // 24bit
+#define LONG_CONSTANT_SIZE 3 // 24 bit
 #define STACK_MAX 256
 
 typedef enum {

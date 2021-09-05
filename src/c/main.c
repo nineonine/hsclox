@@ -17,9 +17,8 @@ int main(int argc, const char* argv[]) {
     Chunk chunk;
     initChunk(&chunk);
 
-    // EXAMPLE_1_mul_2_plus_3;
-    EXAMPLE_neg_2_plus_3_div_5;
-    // EXAMPLE_1_mul_2_plus_3;
+    EXAMPLE_1_mul_2_plus_3;
+    // EXAMPLE_neg_2_plus_3_div_5;
     // EXAMPLE_four_sub_3_mul_neg_2_WITHOUT_NEGATE;
     // EXAMPLE_four_sub_3_mul_neg_2_WITHOUT_SUBTRACT;
 

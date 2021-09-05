@@ -2,11 +2,14 @@
 
 #include "common.h"
 #include "debug.h"
+#include "memory.h"
 #include "vm.h"
 
 VM vm;
 
 static void resetStack() {
+    vm.stack = GROW_ARRAY(Value, NULL, 0, STACK_MAX);
+    vm.stackSize = STACK_MAX;
     vm.sp = vm.stack;
 }
 
@@ -17,7 +20,19 @@ void freeVM() {
 
 }
 
+static void growStack() {
+    int newSize = GROW_CAPACITY(vm.stackSize);
+    printf("GROW STACK. NEW SIZE => %i\n", newSize);
+    vm.stack = GROW_ARRAY(Value, vm.stack, vm.stackSize, newSize);
+    vm.stackSize = newSize;
+}
+
 void push(Value value) {
+    int oldSize = vm.stackSize;
+    if (vm.sp - vm.stack+1 > oldSize) { // stack overflow check
+        growStack();
+        vm.sp = vm.stack + oldSize; // update SP
+    }
     *vm.sp = value;
     vm.sp++;
 }
