@@ -10,11 +10,11 @@
 
 #include "examples.h"
 
-static void constOp(Chunk* chunk, double i, int line) {
-    int constant = addConstant(chunk, i);
-    writeChunk(chunk, OP_CONSTANT, line);
-    writeChunk(chunk, constant, line);
-}
+// static void constOp(Chunk* chunk, double i, int line) {
+//     int constant = addConstant(chunk, i);
+//     writeChunk(chunk, OP_CONSTANT, line);
+//     writeChunk(chunk, constant, line);
+// }
 
 void repl() {
     char line[1024];

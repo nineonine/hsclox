@@ -1,6 +1,8 @@
 #ifndef hsclox_compiler_h
 #define hsclox_compiler_h
 
-void compile(const char* source);
+#include "vm.h"
+
+int compile(const char* source, Chunk* chunk);
 
 #endif
