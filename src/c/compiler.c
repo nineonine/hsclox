@@ -117,7 +117,7 @@ static void emitConstant(Value value) {
 
 static void endCompiler() {
     emitReturn();
-#ifdef DEBUG_PREONT_CODE
+#ifdef DEBUG_PRINT_CODE
     if (!parser.hadError) {
         disassembleChunk(currentChunk(), "code");
     }
