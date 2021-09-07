@@ -1,0 +1,17 @@
+== code ==
+0000    1 OP_TRUE
+0001    | OP_NOT
+0002    2 OP_RETURN
+
+
+
+0000    1 OP_TRUE
+
+[ true ]
+
+0001    | OP_NOT
+
+[ false ]
+
+0002    2 OP_RETURN
+false
