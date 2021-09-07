@@ -1,0 +1,27 @@
+== code ==
+0000    1 OP_CONSTANT         0 '909
+0002    | OP_CONSTANT         1 '606
+0004    | OP_LESS
+0005    | OP_NOT
+0006    2 OP_RETURN
+
+
+
+0000    1 OP_CONSTANT         0 '909
+
+[ 909 ]
+
+0002    | OP_CONSTANT         1 '606
+
+[ 909 ][ 606 ]
+
+0004    | OP_LESS
+
+[ false ]
+
+0005    | OP_NOT
+
+[ true ]
+
+0006    2 OP_RETURN
+true
