@@ -71,6 +71,7 @@ int main(int argc, const char* argv[]) {
         repl();
     } else if (argc == 2) {
         runFile(argv[1]);
+        exit(EXIT_SUCCESS);
     } else {
         fprintf(stderr, "Usage: hsclox [path]\n");
         exit(64);

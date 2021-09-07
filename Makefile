@@ -8,7 +8,7 @@ EXE := ihsclox
 
 CFLAGS := -Wall -g
 
-.PHONY: clean run
+.PHONY: clean run test
 
 clean:
 	find . -perm +100 -type f -delete
@@ -22,3 +22,6 @@ build:
 
 run:
 	@./$(EXE)
+
+test:
+	@python3 test/driver.py -v
