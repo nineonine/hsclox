@@ -3,20 +3,4 @@
 0002    | OP_NEGATE
 0003    | OP_NEGATE
 0004    2 OP_RETURN
-
-
-
-0000    1 OP_CONSTANT         0 '1
-
-[ 1 ]
-
-0002    | OP_NEGATE
-
-[ -1 ]
-
-0003    | OP_NEGATE
-
-[ 1 ]
-
-0004    2 OP_RETURN
 1

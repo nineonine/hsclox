@@ -2,16 +2,4 @@
 0000    1 OP_FALSE
 0001    | OP_NOT
 0002    2 OP_RETURN
-
-
-
-0000    1 OP_FALSE
-
-[ false ]
-
-0001    | OP_NOT
-
-[ true ]
-
-0002    2 OP_RETURN
 true

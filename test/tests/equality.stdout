@@ -4,24 +4,4 @@
 0002    | OP_NOT
 0003    | OP_EQUAL
 0004    2 OP_RETURN
-
-
-
-0000    1 OP_TRUE
-
-[ true ]
-
-0001    | OP_FALSE
-
-[ true ][ false ]
-
-0002    | OP_NOT
-
-[ true ][ true ]
-
-0003    | OP_EQUAL
-
-[ true ]
-
-0004    2 OP_RETURN
 true

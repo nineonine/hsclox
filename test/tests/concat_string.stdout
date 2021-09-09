@@ -3,20 +3,4 @@
 0002    | OP_CONSTANT         1 'world
 0004    | OP_ADD
 0005    2 OP_RETURN
-
-
-
-0000    1 OP_CONSTANT         0 'hello, 
-
-[ hello,  ]
-
-0002    | OP_CONSTANT         1 'world
-
-[ hello,  ][ world ]
-
-0004    | OP_ADD
-
-[ hello, world ]
-
-0005    2 OP_RETURN
 hello, world
