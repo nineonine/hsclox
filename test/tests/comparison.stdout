@@ -3,5 +3,6 @@
 0002    | OP_CONSTANT         1 '606
 0004    | OP_LESS
 0005    | OP_NOT
-0006    2 OP_RETURN
+0006    | OP_PRINT
+0007    2 OP_RETURN
 true
