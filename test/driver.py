@@ -85,11 +85,14 @@ def execTestPgm(interp, test):
     printV("Source path: "+ srcPath, 2)
     return subprocess.check_output(
         [interp, srcPath],
-        stderr=subprocess.STDOUT)
+        stderr=subprocess.PIPE,
+        timeout=3)
 
 def runTest(interp, test):
     printV("Running " + test, 2)
-    outcome = execTestPgm(interp, test)
+    try:   outcome = execTestPgm(interp, test)
+    except subprocess.CalledProcessError as e:
+        outcome=e.stderr
     if (args.snapshot):
         print("Updating snapshot for " + test)
         writeSnapshot(test, outcome)
