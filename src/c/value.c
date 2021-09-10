@@ -40,6 +40,14 @@ void printValue(Value value) {
     }
 }
 
+// Pretty inefficient. TODO
+int isPresent(ValueArray* array, Value a) {
+    for (int i = 0; i < array->count; i++) {
+        if (valuesEqual(array->values[i], a)) return i;
+    }
+    return -1;
+}
+
 bool valuesEqual(Value a, Value b) {
     if (a.type != b.type) return false;
     switch (a.type) {

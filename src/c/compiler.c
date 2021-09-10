@@ -141,7 +141,13 @@ static ParseRule* getRule(TokenType type);
 static void parsePrecedence(Precedence precedence);
 
 static uint8_t identifierConstant(Token* name) {
-    return makeConstant(OBJ_VAL(copyString(name->start, name->length)));
+    Value v = OBJ_VAL(copyString(name->start, name->length));
+    int constantsIdx = isPresent(&currentChunk()->constants, v);
+    if (constantsIdx < 0) {
+        return makeConstant(v);
+    } else {
+        return (uint8_t)constantsIdx;
+    }
 }
 
 static void grouping(bool canAssign) {

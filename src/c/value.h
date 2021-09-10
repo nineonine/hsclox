@@ -48,5 +48,6 @@ void writeValueArrayN(ValueArray* array, Value value, int i);
 void writeValueArray(ValueArray* array, Value value);
 void freeValueArray(ValueArray* array);
 void printValue(Value value);
+int isPresent(ValueArray* array, Value v);
 
 #endif

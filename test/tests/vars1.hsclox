@@ -1,4 +1,4 @@
-var breakfast = "beignets";
-var beverage = "cafe au lait";
-var breakfast = "beignets with " + beverage;
-print breakfast;
+var breakf = "beignets";
+var bev = "cafe au lait";
+var breakf = "beignets with " + bev;
+print breakf;
