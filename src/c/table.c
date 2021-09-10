@@ -114,7 +114,7 @@ ObjString* tableFindString(Table* table, const char* chars,
     for (;;) {
         Entry* entry = &table->entries[index];
         if (entry->key == NULL) {
-            // Strop if we find an empty non-tombstone entry
+            // Stop if we find an empty non-tombstone entry
             if (IS_NIL(entry->value)) return NULL;
         } else if (entry->key->length == length &&
             memcmp(entry->key->chars, chars, length) == 0) {

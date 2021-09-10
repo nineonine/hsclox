@@ -135,6 +135,19 @@ static InterpretResult run() {
                 ObjString* name = READ_STRING();
                 tableSet(&vm.globals, name, peek(0));
                 pop();
+#ifdef DEBUG_TRACE_EXECUTION
+                printf("\nGlobals:\n");
+                for (int i = 0; i < vm.globals.capacity; i++) {
+                    Entry entry = vm.globals.entries[i];
+                    if (entry.key != NULL) {
+                        printf("  ");
+                        printf("%s", entry.key->chars);
+                        printf(" => ");
+                        printValue(entry.value);
+                        printf("\n");
+                    }
+                }
+#endif
                 break;
             }
             case OP_SET_GLOBAL: {
