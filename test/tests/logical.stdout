@@ -1,0 +1,14 @@
+== code ==
+0000    1 OP_FALSE
+0001    | OP_NOT
+0002    | OP_PRINT
+0003    2 OP_TRUE
+0004    | OP_NOT
+0005    | OP_PRINT
+0006    3 OP_NIL
+0007    | OP_NOT
+0008    | OP_PRINT
+0009    4 OP_RETURN
+true
+false
+true

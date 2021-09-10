@@ -1,1 +1,16 @@
+print "hi"=="hi";
+print "hi"=="bye";
 print 909>=606;
+print 909>=606;
+print 909>606;
+print 909==606;
+print 909<=606;
+print 909<606;
+print true!=true;
+print false!=true;
+print true!=false;
+print false!=false;
+print true!=true;
+print false!=true;
+print true!=false;
+print false!=false;

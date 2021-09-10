@@ -1,6 +1,0 @@
-== code ==
-0000    1 OP_TRUE
-0001    | OP_NOT
-0002    | OP_PRINT
-0003    2 OP_RETURN
-false

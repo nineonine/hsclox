@@ -1,0 +1,17 @@
+== code ==
+0000    1 OP_CONSTANT         0 '1
+0002    | OP_PRINT
+0003    2 OP_TRUE
+0004    | OP_PRINT
+0005    3 OP_FALSE
+0006    | OP_PRINT
+0007    4 OP_NIL
+0008    | OP_PRINT
+0009    5 OP_CONSTANT         1 'hi
+0011    | OP_PRINT
+0012    6 OP_RETURN
+1
+true
+false
+nil
+hi
