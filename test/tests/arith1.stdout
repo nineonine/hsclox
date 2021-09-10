@@ -9,7 +9,7 @@
 0011    | OP_CONSTANT         4 '3
 0013    | OP_ADD
 0014    | OP_CONSTANT         5 '5
-0016    | OP_SUBTRACT
+0016    | OP_DIVIDE
 0017    | OP_PRINT
 0018    3 OP_CONSTANT         6 '1
 0020    | OP_NEGATE
@@ -17,5 +17,5 @@
 0022    | OP_PRINT
 0023    4 OP_RETURN
 7
-0
+1
 1

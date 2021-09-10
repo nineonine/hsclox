@@ -1,7 +1,6 @@
 print "hi"=="hi";
 print "hi"=="bye";
 print 909>=606;
-print 909>=606;
 print 909>606;
 print 909==606;
 print 909<=606;
