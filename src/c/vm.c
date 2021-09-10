@@ -5,8 +5,9 @@
 #include "common.h"
 #include "compiler.h"
 #include "debug.h"
-#include "object.h"
+#include "lines.h"
 #include "memory.h"
+#include "object.h"
 #include "vm.h"
 
 VM vm;
@@ -25,7 +26,7 @@ static void runTimeError(const char* format, ...) {
     fputs("\n", stderr);
 
     size_t instruction = vm.ip - vm.chunk->code - 1;
-    int line = vm.chunk->lines[instruction];
+    int line = findLine(vm.chunk, instruction);
     fprintf(stderr, "[line %d] in script\n", line);
     resetStack();
 }
