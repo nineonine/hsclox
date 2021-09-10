@@ -26,7 +26,7 @@ build:	## build interpeter
 	$(CC) $(CFLAGS) $(CPPFLAGS) $(SRCS) -o $(EXE)
 
 run:	## run interpreter
-	@./$(EXE)
+	@./$(EXE) $(SRC)
 
 test:	## invoke tests
 	@python3 test/driver.py -v
