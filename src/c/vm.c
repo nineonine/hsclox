@@ -58,6 +58,12 @@ void push(Value value) {
     *vm.sp = value;
     vm.sp++;
 }
+
+Value popN(uint8_t n) {
+    vm.sp -= n;
+    return *vm.sp;
+}
+
 Value pop() {
     vm.sp--;
     return *vm.sp;
@@ -121,6 +127,11 @@ static InterpretResult run() {
             case OP_TRUE: push(BOOL_VAL(true)); break;
             case OP_FALSE: push(BOOL_VAL(false)); break;
             case OP_POP: pop(); break;
+            case OP_POPN: {
+                uint8_t n = READ_BYTE();
+                popN(n);
+                break;
+            }
             case OP_GET_LOCAL: {
                 uint8_t slot = READ_BYTE();
                 push(vm.stack[slot]);

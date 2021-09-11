@@ -159,12 +159,18 @@ static void beginScope() {
 
 static void endScope() {
     current->scopeDepth--;
+    uint8_t n = 0;
     while(current->localCount > 0 &&
             current->locals[current->localCount - 1].depth >
                 current->scopeDepth) {
-        emitByte(OP_POP);
         current->localCount--;
+        n++;
     }
+    if (n == 1) {
+        emitByte(OP_POP);
+    } else if (n > 0) {
+        emitBytes(OP_POPN, n);
+    };
 }
 
 static void expression();

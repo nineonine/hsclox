@@ -5,8 +5,7 @@
 0006    8 OP_CONSTANT         3 '4
 0008    9 OP_POP
 0009   10 OP_CONSTANT         4 '5
-0011   11 OP_POP
-0012    | OP_POP
+0011   11 OP_POPN             2 '3
 0013   12 OP_POP
 0014   13 OP_CONSTANT         5 '6
 0016   15 OP_CONSTANT         6 '7
@@ -17,7 +16,6 @@
 0025    | OP_ADD
 0026    | OP_PRINT
 0027   17 OP_POP
-0028   18 OP_POP
-0029    | OP_POP
+0028   18 OP_POPN             2 '3
 0030   19 OP_RETURN
 14

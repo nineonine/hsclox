@@ -7,7 +7,6 @@
 0009    | OP_GET_LOCAL     14
 0011    | OP_ADD
 0012    | OP_PRINT
-0013    5 OP_POP
-0014    | OP_POP
+0013    5 OP_POPN             2 '4
 0015    6 OP_RETURN
 7
