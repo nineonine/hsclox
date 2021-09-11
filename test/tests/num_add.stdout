@@ -1,0 +1,13 @@
+== code ==
+0000    2 OP_CONSTANT         0 '1
+0002    | OP_CONSTANT         1 '2
+0004    | OP_ADD
+0005    3 OP_CONSTANT         2 '4
+0007    4 OP_GET_LOCAL     04
+0009    | OP_GET_LOCAL     14
+0011    | OP_ADD
+0012    | OP_PRINT
+0013    5 OP_POP
+0014    | OP_POP
+0015    6 OP_RETURN
+7
