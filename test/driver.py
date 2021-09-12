@@ -53,18 +53,21 @@ def printV(s, indent=0):
 def fullPath(file):
     return os.path.join(TESTS_LOC, file)
 
+def remove_suffix(text, suffix):
+    return text[:-len(suffix)] if text.endswith(suffix) and len(suffix) != 0 else text
+
 def tests():
     result = []
     if (not args.test == ALL_TESTS_MAGIC_WORD): return [args.test]
     for file in os.listdir(TESTS_LOC):
         if file.endswith(SRC_FILE_EXTENSION):
             if args.verbose: print("  " + fullPath(file))
-            result.append(file.removesuffix(SRC_FILE_EXTENSION))
+            result.append(remove_suffix(file, SRC_FILE_EXTENSION))
     print(bold("Found {} tests.".format(len(result))))
     return result
 
 def changeExtension(name, oldExt, newExt):
-    r = name.removesuffix(oldExt)
+    r = remove_suffix(name, oldExt)
     return r + newExt
 
 def readSnapshot(test):
