@@ -13,7 +13,7 @@ ifeq ($(DEBUG), 1)
 endif
 
 .PHONY: clean run test help
-.DEFAULT_GOAL := help
+.DEFAULT_GOAL := build
 
 clean:	## clean up build artifacts
 	find . -perm +100 -type f -delete
