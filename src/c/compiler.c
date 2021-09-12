@@ -42,10 +42,12 @@ typedef struct {
 typedef struct {
     Token name;
     int depth;
+    bool isConst;
 } Local;
 
 typedef struct {
     Local locals[UINT8_COUNT];
+    Table globals;
     int localCount;
     int scopeDepth;
 } Compiler;
@@ -139,6 +141,7 @@ static void emitConstant(Value value) {
 }
 
 static void initCompiler(Compiler* compiler) {
+    initTable(&compiler->globals);
     compiler->localCount = 0;
     compiler->scopeDepth = 0;
     current = compiler;
@@ -207,7 +210,7 @@ static int resolveLocal(Compiler* compiler, Token* name) {
     return -1;
 }
 
-static void addLocal(Token name) {
+static void addLocal(Token name, bool isConst) {
     if (current->localCount == UINT8_COUNT) {
         error("Too many local variables in function.");
         return;
@@ -215,9 +218,10 @@ static void addLocal(Token name) {
     Local* local = &current->locals[current->localCount++];
     local->name = name;
     local->depth = -1;
+    local->isConst = isConst;
 }
 
-static void declareVariable() {
+static void declareVariable(bool isConst) {
     if (current->scopeDepth == 0) return;
     Token* name = &parser.previous;
     for (int i = current->localCount - 1; i >= 0; i--) {
@@ -229,7 +233,7 @@ static void declareVariable() {
             error("Already a variable with this name in this scope");
         }
     }
-    addLocal(*name);
+    addLocal(*name, isConst);
 }
 
 static void grouping(bool canAssign) {
@@ -247,6 +251,21 @@ static void string(bool canAssign) {
                                     parser.previous.length -2)));
 }
 
+static void isNotConstVar(Compiler* compiler, Token* name, int i) {
+    Local* local = &compiler->locals[i];
+    if (i > 0) { // local scope
+        if (local->isConst) {
+            error("Can't reassign const variable");
+        }
+    } else { // global scope
+        Value v;
+        ObjString* key = copyString(name->start, name->length);
+        if (tableGet(&compiler->globals, key, &v) && AS_BOOL(v)) {
+            error("Can't reassign const variable");
+        }
+    }
+}
+
 static void namedVariable(Token name, bool canAssign) {
     uint8_t getOp, setOp;
     int arg = resolveLocal(current, &name);
@@ -261,6 +280,7 @@ static void namedVariable(Token name, bool canAssign) {
     }
 
     if (canAssign && match(TOKEN_EQUAL)) {
+        isNotConstVar(current, &name, arg);
         expression();
         emitBytes(setOp, (uint8_t)arg);
     } else {
@@ -350,6 +370,7 @@ ParseRule rules[] = {
     [TOKEN_THIS]          = {NULL,     NULL,   PREC_NONE},
     [TOKEN_TRUE]          = {literal,  NULL,   PREC_NONE},
     [TOKEN_VAR]           = {NULL,     NULL,   PREC_NONE},
+    [TOKEN_CONST]         = {NULL,     NULL,   PREC_NONE},
     [TOKEN_WHILE]         = {NULL,     NULL,   PREC_NONE},
     [TOKEN_ERROR]         = {NULL,     NULL,   PREC_NONE},
     [TOKEN_EOF]           = {NULL,     NULL,   PREC_NONE},
@@ -377,11 +398,23 @@ static void parsePrecedence(Precedence precedence) {
     }
 }
 
+static void extendGlobals(ObjString* key, bool isConst) {
+    Value v;
+    if (tableGet(&current->globals, key, &v) && AS_BOOL(v)) {
+        error("Can't reassign const variable");
+    } else {
+        tableSet(&current->globals, key, BOOL_VAL(isConst));
+    }
+}
+
 static uint8_t parseVariable(const char* errorMessage) {
+    bool isConst = parser.previous.type == TOKEN_CONST;
     consume(TOKEN_IDENTIFIER, errorMessage);
-    declareVariable();
-    if (current -> scopeDepth > 0) return 0;
-    return identifierConstant(&parser.previous);
+    declareVariable(isConst);
+    if (current->scopeDepth > 0) return 0; // return if scope is local
+    Token* name = &parser.previous;
+    extendGlobals(copyString(name->start, name->length), isConst);
+    return identifierConstant(name);
 }
 
 static void markInitialized() {
@@ -448,6 +481,7 @@ static void synchronize() {
             case TOKEN_CLASS:
             case TOKEN_FUN:
             case TOKEN_VAR:
+            case TOKEN_CONST:
             case TOKEN_FOR:
             case TOKEN_IF:
             case TOKEN_WHILE:
@@ -463,7 +497,8 @@ static void synchronize() {
 }
 
 static void declaration() {
-    if (match(TOKEN_VAR)) {
+    if (check(TOKEN_VAR) || check(TOKEN_CONST)) {
+        advance();
         varDeclaration();
     } else {
         statement();
