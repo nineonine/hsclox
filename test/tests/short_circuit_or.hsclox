@@ -1,0 +1,12 @@
+if (true or false) {
+    print "true1";
+}
+if (false or true or false) {
+    print "true2";
+}
+if (false or false or true) {
+    print "true3";
+}
+if (false or false or false) {
+    print "won't print";
+}
