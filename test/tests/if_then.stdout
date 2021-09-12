@@ -1,0 +1,13 @@
+== code ==
+0000    1 OP_CONSTANT         0 '5
+0002    | OP_CONSTANT         1 '2
+0004    | OP_GREATER
+0005    | Unknown opcode 22
+0006    | OP_CONSTANT         3 'after if
+0008    2 OP_CONSTANT         2 'then branch
+0010    | OP_PRINT
+0011    4 OP_CONSTANT         3 'after if
+0013    | OP_PRINT
+0014    5 OP_RETURN
+then branch
+after if
