@@ -1,0 +1,3 @@
+if (false and (1==1)) {
+    print "then branch";
+}
