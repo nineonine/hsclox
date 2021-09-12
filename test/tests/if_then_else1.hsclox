@@ -1,0 +1,10 @@
+if (3>2) {
+    print "then branch1";
+} else {
+    print "else branch1";
+}
+if (2>3) {
+    print "then branch2";
+} else {
+    print "else branch2";
+}
