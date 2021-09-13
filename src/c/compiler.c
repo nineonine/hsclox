@@ -390,6 +390,7 @@ ParseRule rules[] = {
     [TOKEN_DOT]           = {NULL,     NULL,   PREC_NONE},
     [TOKEN_MINUS]         = {unary,    binary, PREC_TERM},
     [TOKEN_PLUS]          = {NULL,     binary, PREC_TERM},
+    [TOKEN_COLON]         = {NULL,     NULL,   PREC_NONE},
     [TOKEN_SEMICOLON]     = {NULL,     NULL,   PREC_NONE},
     [TOKEN_SLASH]         = {NULL,     binary, PREC_FACTOR},
     [TOKEN_STAR]          = {NULL,     binary, PREC_FACTOR},
@@ -421,6 +422,9 @@ ParseRule rules[] = {
     [TOKEN_VAR]           = {NULL,     NULL,   PREC_NONE},
     [TOKEN_CONST]         = {NULL,     NULL,   PREC_NONE},
     [TOKEN_WHILE]         = {NULL,     NULL,   PREC_NONE},
+    [TOKEN_SWITCH]        = {NULL,     NULL,   PREC_NONE},
+    [TOKEN_CASE]          = {NULL,     NULL,   PREC_NONE},
+    [TOKEN_DEFAULT]       = {NULL,     NULL,   PREC_NONE},
     [TOKEN_ERROR]         = {NULL,     NULL,   PREC_NONE},
     [TOKEN_EOF]           = {NULL,     NULL,   PREC_NONE},
 };
@@ -578,6 +582,64 @@ static void ifStatement() {
     patchJump(elseJump);
 }
 
+static int switchCase() {
+    consume(TOKEN_CASE, "Expect 'case' before expression.");
+    expression();
+    consume(TOKEN_COLON, "Expect ':' after case.");
+
+    emitByte(OP_EQUAL);
+    int end = emitJump(OP_JUMP_IF_FALSE);
+    emitBytes(OP_POPN, 2);
+
+    beginScope();
+    statement();
+    int caseEnd = emitJump(OP_JUMP);
+    endScope();
+    patchJump(end);
+
+    return caseEnd;
+}
+
+static void defaultCase() {
+    beginScope();
+    consume(TOKEN_DEFAULT, "Expect default case.");
+    consume(TOKEN_COLON, "Expect ':' after default.");
+    statement();
+    endScope();
+}
+
+// because case-to-switch comparison consumes switch expr value on the stack,
+// we duplicate it to give other branches a chance to check against it.
+static void switchStatement() {
+    int caseOffsets[UINT8_MAX];
+    int offsetIdx = 0;
+
+    consume(TOKEN_LEFT_PAREN, "Expect '(' after 'switch'.");
+    expression();
+    consume(TOKEN_RIGHT_PAREN, "Expect ')' after condition.");
+    consume(TOKEN_LEFT_BRACE, "Expect '{' after switch expression.");
+
+    while (!check(TOKEN_DEFAULT) && !check(TOKEN_EOF)) {
+        if (offsetIdx > 0) emitByte(OP_POP);
+        emitByte(OP_STACK_DUP_1);
+        if (offsetIdx > UINT8_MAX) error("Too many switch cases.");
+        caseOffsets[offsetIdx] = switchCase();
+        offsetIdx++;
+    }
+    if (offsetIdx == 0) {
+        emitByte(OP_POP); // switch expression
+    } else {
+        emitBytes(OP_POPN, 2); // if we had case branches, clean up after last case
+    }
+    defaultCase();
+
+    for (int i = 0; i < offsetIdx; i++) {
+        patchJump(caseOffsets[i]);
+    }
+
+    consume(TOKEN_RIGHT_BRACE, "Expect closing '}'.");
+}
+
 static void printStatement() {
     expression();
     consume(TOKEN_SEMICOLON, "Expect ';' after value.");
@@ -612,6 +674,7 @@ static void synchronize() {
             case TOKEN_FOR:
             case TOKEN_IF:
             case TOKEN_WHILE:
+            case TOKEN_SWITCH:
             case TOKEN_PRINT:
             case TOKEN_RETURN:
                 return;
@@ -636,10 +699,12 @@ static void declaration() {
 static void statement() {
     if (match(TOKEN_PRINT)) {
         printStatement();
-    }else if (match(TOKEN_FOR)) {
+    } else if (match(TOKEN_FOR)) {
         forStatement();
     } else if (match(TOKEN_IF)) {
         ifStatement();
+    } else if (match(TOKEN_SWITCH)) {
+        switchStatement();
     } else if (match(TOKEN_WHILE)) {
         whileStatement();
     } else if (match(TOKEN_LEFT_BRACE)) {

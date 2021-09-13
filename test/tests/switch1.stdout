@@ -1,0 +1,234 @@
+== code ==
+0000    1 OP_CONSTANT         0 '1
+0002    | OP_CONSTANT         1 '2
+0004    | OP_ADD
+0005    | OP_STACK_DUP_1
+0006    2 OP_CONSTANT         2 '1
+0008    | OP_EQUAL
+0009    | OP_JUMP_IF_FALSE    9 -> 20
+0012    | OP_POPN             2 '1
+0014    3 OP_CONSTANT         3 'nope
+0016    | OP_PRINT
+0017    4 OP_JUMP            17 -> 57
+0020    | OP_POP
+0021    | OP_STACK_DUP_1
+0022    5 OP_CONSTANT         4 '3
+0024    | OP_EQUAL
+0025    | OP_JUMP_IF_FALSE   25 -> 36
+0028    | OP_POPN             2 '1
+0030    6 OP_CONSTANT         5 'yes
+0032    | OP_PRINT
+0033    7 OP_JUMP            33 -> 57
+0036    | OP_POP
+0037    | OP_STACK_DUP_1
+0038    8 OP_CONSTANT         6 '5
+0040    | OP_EQUAL
+0041    | OP_JUMP_IF_FALSE   41 -> 52
+0044    | OP_POPN             2 '1
+0046    9 OP_CONSTANT         7 'nope again
+0048    | OP_PRINT
+0049   10 OP_JUMP            49 -> 57
+0052    | OP_POPN             2 '1
+0054   12 OP_CONSTANT         8 'unreachable
+0056    | OP_PRINT
+0057   16 OP_CONSTANT         9 '1
+0059    | OP_STACK_DUP_1
+0060   17 OP_CONSTANT        10 '1
+0062    | OP_EQUAL
+0063    | OP_JUMP_IF_FALSE   63 -> 74
+0066    | OP_POPN             2 '1
+0068   18 OP_CONSTANT        11 'yes
+0070    | OP_PRINT
+0071   19 OP_JUMP            71 -> 95
+0074    | OP_POP
+0075    | OP_STACK_DUP_1
+0076   20 OP_CONSTANT        12 '3
+0078    | OP_EQUAL
+0079    | OP_JUMP_IF_FALSE   79 -> 90
+0082    | OP_POPN             2 '1
+0084   21 OP_CONSTANT        13 'nope
+0086    | OP_PRINT
+0087   22 OP_JUMP            87 -> 95
+0090    | OP_POPN             2 '1
+0092   24 OP_CONSTANT        14 'unreachable
+0094    | OP_PRINT
+0095   28 OP_CONSTANT        15 '2
+0097    | OP_STACK_DUP_1
+0098   29 OP_CONSTANT        16 '1
+0100    | OP_EQUAL
+0101    | OP_JUMP_IF_FALSE  101 -> 112
+0104    | OP_POPN             2 '1
+0106   30 OP_CONSTANT        17 'nope
+0108    | OP_PRINT
+0109   31 OP_JUMP           109 -> 133
+0112    | OP_POP
+0113    | OP_STACK_DUP_1
+0114   32 OP_CONSTANT        18 '3
+0116    | OP_EQUAL
+0117    | OP_JUMP_IF_FALSE  117 -> 128
+0120    | OP_POPN             2 '1
+0122   33 OP_CONSTANT        19 'nope
+0124    | OP_PRINT
+0125   34 OP_JUMP           125 -> 133
+0128    | OP_POPN             2 '1
+0130   36 OP_CONSTANT        20 'yes
+0132    | OP_PRINT
+0133   40 OP_CONSTANT        21 '5
+0135    | OP_STACK_DUP_1
+0136   41 OP_CONSTANT        22 '1
+0138    | OP_EQUAL
+0139    | OP_JUMP_IF_FALSE  139 -> 150
+0142    | OP_POPN             2 '1
+0144   42 OP_CONSTANT        23 'nope
+0146    | OP_PRINT
+0147   43 OP_JUMP           147 -> 187
+0150    | OP_POP
+0151    | OP_STACK_DUP_1
+0152   44 OP_CONSTANT        24 '3
+0154    | OP_EQUAL
+0155    | OP_JUMP_IF_FALSE  155 -> 166
+0158    | OP_POPN             2 '1
+0160   45 OP_CONSTANT        25 'nope
+0162    | OP_PRINT
+0163   46 OP_JUMP           163 -> 187
+0166    | OP_POP
+0167    | OP_STACK_DUP_1
+0168   47 OP_CONSTANT        26 '5
+0170    | OP_EQUAL
+0171    | OP_JUMP_IF_FALSE  171 -> 182
+0174    | OP_POPN             2 '1
+0176   48 OP_CONSTANT        27 'yes
+0178    | OP_PRINT
+0179   49 OP_JUMP           179 -> 187
+0182    | OP_POPN             2 '1
+0184   51 OP_CONSTANT        28 'nope
+0186    | OP_PRINT
+0187   55 OP_CONSTANT        29 '2
+0189    | OP_POP
+0190   57 OP_CONSTANT        30 'yes
+0192    | OP_PRINT
+0193   61 OP_CONSTANT        31 'a
+0195    | OP_STACK_DUP_1
+0196   62 OP_CONSTANT        32 'a
+0198    | OP_EQUAL
+0199    | OP_JUMP_IF_FALSE  199 -> 210
+0202    | OP_POPN             2 '1
+0204    | OP_CONSTANT        33 'yes
+0206    | OP_PRINT
+0207    | OP_JUMP           207 -> 215
+0210    | OP_POPN             2 '1
+0212   63 OP_CONSTANT        34 'no
+0214    | OP_PRINT
+0215   66 OP_CONSTANT        35 'global
+0217    | OP_DEFINE_GLOBAL   31 'a
+0219   67 OP_CONSTANT        36 '3
+0221    | OP_STACK_DUP_1
+0222   68 OP_CONSTANT        37 '3
+0224    | OP_EQUAL
+0225    | OP_JUMP_IF_FALSE  225 -> 242
+0228    | OP_POPN             2 '1
+0230   69 OP_CONSTANT        38 'local
+0232   70 OP_CONSTANT        39 'a is 
+0234    | OP_GET_LOCAL     04
+0236    | OP_ADD
+0237    | OP_PRINT
+0238   71 OP_POP
+0239    | OP_JUMP           239 -> 244
+0242    | OP_POPN             2 '1
+0244   75 OP_CONSTANT        41 'global
+0246    | OP_DEFINE_GLOBAL   40 'c
+0248   76 OP_CONSTANT        42 '5
+0250    | OP_STACK_DUP_1
+0251   77 OP_CONSTANT        43 '3
+0253    | OP_EQUAL
+0254    | OP_JUMP_IF_FALSE  254 -> 271
+0257    | OP_POPN             2 '1
+0259   78 OP_CONSTANT        44 'local from case 3
+0261   79 OP_CONSTANT        45 'c is 
+0263    | OP_GET_LOCAL     04
+0265    | OP_ADD
+0266    | OP_PRINT
+0267   80 OP_POP
+0268    | OP_JUMP           268 -> 295
+0271    | OP_POP
+0272    | OP_STACK_DUP_1
+0273   81 OP_CONSTANT        46 '5
+0275    | OP_EQUAL
+0276    | OP_JUMP_IF_FALSE  276 -> 293
+0279    | OP_POPN             2 '1
+0281   82 OP_CONSTANT        47 'local from case 5
+0283   83 OP_CONSTANT        48 'c is 
+0285    | OP_GET_LOCAL     04
+0287    | OP_ADD
+0288    | OP_PRINT
+0289   84 OP_POP
+0290    | OP_JUMP           290 -> 295
+0293    | OP_POPN             2 '1
+0295   88 OP_CONSTANT        50 'global
+0297    | OP_DEFINE_GLOBAL   49 'b
+0299   89 OP_CONSTANT        51 '3
+0301    | OP_POP
+0302   91 OP_CONSTANT        52 'local
+0304   92 OP_CONSTANT        53 'b is 
+0306    | OP_GET_LOCAL     04
+0308    | OP_ADD
+0309    | OP_PRINT
+0310   93 OP_POP
+0311   96 OP_CONSTANT        54 'a from global
+0313    | OP_DEFINE_GLOBAL   31 'a
+0315   98 OP_CONSTANT        55 'a from scope1
+0317   99 OP_CONSTANT        56 '3
+0319    | OP_STACK_DUP_1
+0320  100 OP_CONSTANT        57 '1
+0322    | OP_EQUAL
+0323    | OP_JUMP_IF_FALSE  323 -> 334
+0326    | OP_POPN             2 '1
+0328  101 OP_CONSTANT        58 'a from scope2 outer switch case 1
+0330  102 OP_POP
+0331    | OP_JUMP           331 -> 393
+0334    | OP_POP
+0335    | OP_STACK_DUP_1
+0336  103 OP_CONSTANT        59 '3
+0338    | OP_EQUAL
+0339    | OP_JUMP_IF_FALSE  339 -> 391
+0342    | OP_POPN             2 '1
+0344  104 OP_CONSTANT        60 'a from scope2 outer switch case 3
+0346  105 OP_GET_LOCAL     14
+0348    | OP_PRINT
+0349  106 OP_CONSTANT        61 '6
+0351    | OP_STACK_DUP_1
+0352  107 OP_CONSTANT        62 '2
+0354    | OP_EQUAL
+0355    | OP_JUMP_IF_FALSE  355 -> 366
+0358    | OP_POPN             2 '1
+0360  108 OP_CONSTANT        63 'a from scope3 inner switch case 2
+0362  109 OP_POP
+0363    | OP_JUMP           363 -> 387
+0366    | OP_POP
+0367    | OP_STACK_DUP_1
+0368  110 OP_CONSTANT        64 '6
+0370    | OP_EQUAL
+0371    | OP_JUMP_IF_FALSE  371 -> 385
+0374    | OP_POPN             2 '1
+0376  111 OP_CONSTANT        65 'a from scope3 inner switch case 6
+0378  112 OP_GET_LOCAL     24
+0380    | OP_PRINT
+0381  113 OP_POP
+0382    | OP_JUMP           382 -> 387
+0385    | OP_POPN             2 '1
+0387  116 OP_POP
+0388    | OP_JUMP           388 -> 393
+0391    | OP_POPN             2 '1
+0393  119 OP_POP
+0394  120 OP_RETURN
+yes
+yes
+yes
+yes
+yes
+yes
+a is local
+c is local from case 5
+b is local
+a from scope2 outer switch case 3
+a from scope3 inner switch case 6

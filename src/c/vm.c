@@ -235,6 +235,10 @@ static InterpretResult run() {
                 vm.ip -= offset;
                 break;
             }
+            case OP_STACK_DUP_1: {
+                push(peek(0));
+                break;
+            }
             case OP_RETURN: {
                 return INTERPRET_OK;
             }

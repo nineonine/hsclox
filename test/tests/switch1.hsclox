@@ -1,0 +1,119 @@
+switch (1+2) {
+    case 1: {
+        print("nope");
+    }
+    case 3: {
+        print("yes");
+    }
+    case 5: {
+        print("nope again");
+    }
+    default: {
+        print("unreachable");
+    }
+}
+
+switch (1) {
+    case 1: {
+        print("yes");
+    }
+    case 3: {
+        print("nope");
+    }
+    default: {
+        print("unreachable");
+    }
+}
+
+switch (2) {
+    case 1: {
+        print("nope");
+    }
+    case 3: {
+        print("nope");
+    }
+    default: {
+        print("yes");
+    }
+}
+
+switch (5) {
+    case 1: {
+        print("nope");
+    }
+    case 3: {
+        print("nope");
+    }
+    case 5: {
+        print("yes");
+    }
+    default: {
+        print("nope");
+    }
+}
+
+switch (2) {
+    default: {
+        print("yes");
+    }
+}
+
+switch ("a") {
+    case "a": print("yes");
+    default: print("no");
+}
+
+var a = "global";
+switch (3) {
+    case 3: {
+        var a = "local";
+        print("a is " + a);
+    }
+    default: {}
+}
+
+var c = "global";
+switch (5) {
+    case 3: {
+        var c = "local from case 3";
+        print("c is " + c);
+    }
+    case 5: {
+        var c = "local from case 5";
+        print("c is " + c);
+    }
+    default: {}
+}
+
+var b = "global";
+switch (3) {
+    default: {
+        var b = "local";
+        print("b is " + b);
+    }
+}
+
+var a = "a from global";
+{
+    var a = "a from scope1";
+    switch (3) {
+        case 1: {
+            var a = "a from scope2 outer switch case 1";
+        }
+        case 3: {
+            var a = "a from scope2 outer switch case 3";
+            print a;
+            switch (6) {
+                case 2: {
+                    var a = "a from scope3 inner switch case 2";
+                }
+                case 6: {
+                    var a = "a from scope3 inner switch case 6";
+                    print a;
+                }
+                default: {}
+            }
+        }
+        default: {}
+    }
+}
