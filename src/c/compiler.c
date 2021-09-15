@@ -5,10 +5,13 @@
 #include "common.h"
 #include "compiler.h"
 #include "scanner.h"
+#include "utils.h"
 
 #ifdef DEBUG_PRINT_CODE
 #include "debug.h"
 #endif
+
+#define PANIC() (abort())
 
 typedef struct {
     Token current;
@@ -45,11 +48,20 @@ typedef struct {
     bool isConst;
 } Local;
 
+typedef struct Loop {
+    int start;
+    int exitJump;
+    int body;
+    int scopeDepth;
+    struct Loop* enclosing;
+} Loop;
+
 typedef struct {
     Local locals[UINT8_COUNT];
     Table globals;
     int localCount;
     int scopeDepth;
+    Loop* loop;
 } Compiler;
 
 Parser parser;
@@ -169,10 +181,73 @@ static void patchJump(int offset) {
     currentChunk()->code[offset + 1] = jump & 0xff;
 }
 
+static int computeArgsByteSize(const uint8_t* code, int ip) {
+    uint8_t op = code[ip];
+    switch (op) {
+        case OP_TRUE:
+        case OP_FALSE:
+        case OP_NIL:
+        case OP_POP:
+        case OP_EQUAL:
+        case OP_GREATER:
+        case OP_LESS:
+        case OP_ADD:
+        case OP_SUBTRACT:
+        case OP_MULTIPLY:
+        case OP_DIVIDE:
+        case OP_NOT:
+        case OP_NEGATE:
+        case OP_PRINT:
+        case OP_STACK_DUP_1:
+        case OP_RETURN:
+            return 0;
+
+        case OP_CONSTANT:
+        case OP_CONSTANT_LONG:
+        case OP_POPN:
+        case OP_SET_LOCAL:
+        case OP_GET_LOCAL:
+        case OP_GET_GLOBAL:
+        case OP_DEFINE_GLOBAL:
+        case OP_SET_GLOBAL:
+            return 1;
+
+        case OP_JUMP:
+        case OP_JUMP_IF_FALSE:
+        case OP_JUMP_TEMP:
+        case OP_LOOP:
+            return 2;
+    }
+    PANIC();
+    return -1;
+}
+
+static void startLoop(Loop* loop) {
+    loop->enclosing = current->loop;
+    loop->start = currentChunk()->count - 1;
+    loop->scopeDepth = current->scopeDepth;
+    current->loop = loop;
+}
+
+static void endLoop() {
+    int i = current->loop->body;
+    while (i < currentChunk()->count) {
+        if (currentChunk()->code[i] == OP_JUMP_TEMP) {
+            currentChunk()->code[i] = OP_JUMP;
+            patchJump(i + 1);
+            i += 3;
+        } else {
+            i += 1 + computeArgsByteSize(currentChunk()->code, i);
+        }
+    }
+    current->loop = current->loop->enclosing;
+}
+
 static void initCompiler(Compiler* compiler) {
     initTable(&compiler->globals);
     compiler->localCount = 0;
     compiler->scopeDepth = 0;
+    compiler->loop = NULL;
     current = compiler;
 }
 
@@ -248,6 +323,20 @@ static void addLocal(Token name, bool isConst) {
     local->name = name;
     local->depth = -1;
     local->isConst = isConst;
+}
+
+static int discardLocals(Compiler* current) {
+    ASSERT(current->scopeDepth > -1, "Cannot exit top-level scope");
+    int depth = current->loop->scopeDepth + 1;
+    int lc = current->localCount - 1;
+    int n = 0;
+    while(lc >= 0 && current->locals[lc].depth >= depth) {
+        current->localCount--;
+        n++;
+        lc--;
+    }
+    if (n != 0) emitBytes(OP_POPN, (uint8_t)n);
+    return current->localCount - lc - 1;
 }
 
 static void declareVariable(bool isConst) {
@@ -422,6 +511,7 @@ ParseRule rules[] = {
     [TOKEN_VAR]           = {NULL,     NULL,   PREC_NONE},
     [TOKEN_CONST]         = {NULL,     NULL,   PREC_NONE},
     [TOKEN_WHILE]         = {NULL,     NULL,   PREC_NONE},
+    [TOKEN_BREAK]         = {NULL,     NULL,   PREC_NONE},
     [TOKEN_SWITCH]        = {NULL,     NULL,   PREC_NONE},
     [TOKEN_CASE]          = {NULL,     NULL,   PREC_NONE},
     [TOKEN_DEFAULT]       = {NULL,     NULL,   PREC_NONE},
@@ -521,6 +611,9 @@ static void expressionStatement() {
 
 static void forStatement() {
     beginScope();
+    Loop loop;
+    startLoop(&loop);
+
     consume(TOKEN_LEFT_PAREN, "Expect '(' after 'for'.");
     if (match(TOKEN_SEMICOLON)) {
         // No initializer.
@@ -553,6 +646,7 @@ static void forStatement() {
         patchJump(bodyJump);
     }
 
+    current->loop->body = currentChunk()->count;
     statement();
     emitLoop(loopStart);
 
@@ -561,6 +655,7 @@ static void forStatement() {
         emitByte(OP_POP);
     }
 
+    endLoop();
     endScope();
 }
 
@@ -646,7 +741,20 @@ static void printStatement() {
     emitByte(OP_PRINT);
 }
 
+static void breakStatement() {
+    if (current->loop == NULL) {
+        error("Cannot use 'break' outside of a loop.");
+        return;
+    }
+    consume(TOKEN_SEMICOLON, "Expect ';' after break.");
+    discardLocals(current);
+    emitJump(OP_JUMP_TEMP);
+}
+
 static void whileStatement() {
+    Loop loop;
+    startLoop(&loop);
+
     int loopStart = currentChunk()->count;
     consume(TOKEN_LEFT_PAREN, "Expect '(' after 'while'.");
     expression();
@@ -654,11 +762,13 @@ static void whileStatement() {
 
     int exitJump = emitJump(OP_JUMP_IF_FALSE);
     emitByte(OP_POP);
+    current->loop->body = currentChunk()->count;
     statement();
     emitLoop(loopStart);
 
     patchJump(exitJump);
     emitByte(OP_POP);
+    endLoop();
 }
 
 static void synchronize() {
@@ -699,6 +809,8 @@ static void declaration() {
 static void statement() {
     if (match(TOKEN_PRINT)) {
         printStatement();
+    } else if (match(TOKEN_BREAK)) {
+        breakStatement();
     } else if (match(TOKEN_FOR)) {
         forStatement();
     } else if (match(TOKEN_IF)) {

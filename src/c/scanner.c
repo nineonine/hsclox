@@ -119,6 +119,7 @@ static TokenType checkKeyword(int start, int length,
 static TokenType identifierType() {
     switch(scanner.start[0]) {
         case 'a': return checkKeyword(1, 2, "nd", TOKEN_AND);
+        case 'b': return checkKeyword(1, 4, "reak", TOKEN_BREAK);
         case 'c':
             if (scanner.current - scanner.start > 1) {
                 switch (scanner.start[1]) {

@@ -1,0 +1,89 @@
+== code ==
+0000    2 OP_CONSTANT         0 '0
+0002    | OP_GET_LOCAL     04
+0004    | OP_CONSTANT         1 '5
+0006    | OP_LESS
+0007    | OP_JUMP_IF_FALSE    7 -> 47
+0010    | OP_POP
+0011    | OP_JUMP            11 -> 25
+0014    | OP_GET_LOCAL     04
+0016    | OP_CONSTANT         2 '1
+0018    | OP_ADD
+0019    | OP_SET_LOCAL     04
+0021    | OP_POP
+0022    | OP_LOOP            22 -> 2
+0025    3 OP_GET_LOCAL     04
+0027    | OP_CONSTANT         3 '3
+0029    | OP_EQUAL
+0030    | OP_JUMP_IF_FALSE   30 -> 40
+0033    | OP_POP
+0034    | OP_JUMP            34 -> 48
+0037    | OP_JUMP            37 -> 41
+0040    | OP_POP
+0041    4 OP_GET_LOCAL     04
+0043    | OP_PRINT
+0044    5 OP_LOOP            44 -> 14
+0047    | OP_POP
+0048    | OP_POP
+0049    9 OP_CONSTANT         4 '0
+0051    | OP_GET_LOCAL     04
+0053    | OP_CONSTANT         5 '3
+0055    | OP_LESS
+0056    | OP_JUMP_IF_FALSE   56 -> 83
+0059    | OP_POP
+0060    | OP_JUMP            60 -> 74
+0063    | OP_GET_LOCAL     04
+0065    | OP_CONSTANT         6 '1
+0067    | OP_ADD
+0068    | OP_SET_LOCAL     04
+0070    | OP_POP
+0071    | OP_LOOP            71 -> 51
+0074   10 OP_JUMP            74 -> 84
+0077   11 OP_CONSTANT         7 'no
+0079    | OP_PRINT
+0080   12 OP_LOOP            80 -> 63
+0083    | OP_POP
+0084    | OP_POP
+0085   15 OP_CONSTANT         9 'no
+0087    | OP_DEFINE_GLOBAL    8 'a
+0089   17 OP_TRUE
+0090    | OP_JUMP_IF_FALSE   90 -> 156
+0093    | OP_POP
+0094   18 OP_CONSTANT        10 '0
+0096    | OP_GET_LOCAL     04
+0098    | OP_CONSTANT        11 '3
+0100    | OP_LESS
+0101    | OP_JUMP_IF_FALSE  101 -> 145
+0104    | OP_POP
+0105    | OP_JUMP           105 -> 119
+0108    | OP_GET_LOCAL     04
+0110    | OP_CONSTANT        12 '1
+0112    | OP_ADD
+0113    | OP_SET_LOCAL     04
+0115    | OP_POP
+0116    | OP_LOOP           116 -> 96
+0119   19 OP_TRUE
+0120    | OP_JUMP_IF_FALSE  120 -> 138
+0123    | OP_POP
+0124   20 OP_CONSTANT        13 'yes
+0126    | OP_SET_GLOBAL       8 'a
+0128    | OP_POP
+0129   21 OP_JUMP           129 -> 139
+0132   22 OP_CONSTANT        14 'nope
+0134    | OP_PRINT
+0135   23 OP_LOOP           135 -> 119
+0138    | OP_POP
+0139   24 OP_JUMP           139 -> 146
+0142   25 OP_LOOP           142 -> 108
+0145    | OP_POP
+0146    | OP_POP
+0147   26 OP_GET_GLOBAL       8 'a
+0149    | OP_PRINT
+0150   27 OP_JUMP           150 -> 157
+0153   28 OP_LOOP           153 -> 89
+0156    | OP_POP
+0157   30 OP_RETURN
+0
+1
+2
+yes

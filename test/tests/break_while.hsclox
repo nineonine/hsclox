@@ -1,0 +1,52 @@
+
+while (true) {
+    break;
+    print "no";
+}
+print "yes";
+
+while (true) {
+    var a = 1;
+    var b = 2;
+    break;
+    print "no";
+}
+print "yes";
+
+{
+    var a = "yes";
+    while (true) {
+        var a = "maybe";
+        break;
+        print "no";
+    }
+    print a;
+}
+
+{
+    while(true) {
+        var a = 1;
+        var c = 5;
+        while(true) {
+            var d = 4;
+            var c = 7;
+            break;
+            print "no";
+        }
+        print "yes";
+        break;
+        print "no";
+    }
+}
+
+{
+    while (true) {
+        var c = 5;
+        if (1 == 1) {
+            var a = 1;
+            break;
+        }
+        print "no";
+    }
+    print "yes";
+}

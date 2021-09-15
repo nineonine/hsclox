@@ -1,0 +1,88 @@
+== code ==
+0000    2 OP_TRUE
+0001    | OP_JUMP_IF_FALSE    1 -> 14
+0004    | OP_POP
+0005    3 OP_JUMP             5 -> 15
+0008    4 OP_CONSTANT         0 'no
+0010    | OP_PRINT
+0011    5 OP_LOOP            11 -> 0
+0014    | OP_POP
+0015    6 OP_CONSTANT         1 'yes
+0017    | OP_PRINT
+0018    8 OP_TRUE
+0019    | OP_JUMP_IF_FALSE   19 -> 38
+0022    | OP_POP
+0023    9 OP_CONSTANT         2 '1
+0025   10 OP_CONSTANT         3 '2
+0027   11 OP_POPN             2 '1
+0029    | OP_JUMP            29 -> 39
+0032   12 OP_CONSTANT         4 'no
+0034    | OP_PRINT
+0035   13 OP_LOOP            35 -> 18
+0038    | OP_POP
+0039   14 OP_CONSTANT         5 'yes
+0041    | OP_PRINT
+0042   17 OP_CONSTANT         6 'yes
+0044   18 OP_TRUE
+0045    | OP_JUMP_IF_FALSE   45 -> 62
+0048    | OP_POP
+0049   19 OP_CONSTANT         7 'maybe
+0051   20 OP_POPN             1 'yes
+0053    | OP_JUMP            53 -> 63
+0056   21 OP_CONSTANT         8 'no
+0058    | OP_PRINT
+0059   22 OP_LOOP            59 -> 44
+0062    | OP_POP
+0063   23 OP_GET_LOCAL     04
+0065    | OP_PRINT
+0066   24 OP_POP
+0067   27 OP_TRUE
+0068    | OP_JUMP_IF_FALSE   68 -> 111
+0071    | OP_POP
+0072   28 OP_CONSTANT         9 '1
+0074   29 OP_CONSTANT        10 '5
+0076   30 OP_TRUE
+0077    | OP_JUMP_IF_FALSE   77 -> 96
+0080    | OP_POP
+0081   31 OP_CONSTANT        11 '4
+0083   32 OP_CONSTANT        12 '7
+0085   33 OP_POPN             2 '1
+0087    | OP_JUMP            87 -> 97
+0090   34 OP_CONSTANT        13 'no
+0092    | OP_PRINT
+0093   35 OP_LOOP            93 -> 76
+0096    | OP_POP
+0097   36 OP_CONSTANT        14 'yes
+0099    | OP_PRINT
+0100   37 OP_POPN             2 '1
+0102    | OP_JUMP           102 -> 112
+0105   38 OP_CONSTANT        15 'no
+0107    | OP_PRINT
+0108   39 OP_LOOP           108 -> 67
+0111    | OP_POP
+0112   43 OP_TRUE
+0113    | OP_JUMP_IF_FALSE  113 -> 145
+0116    | OP_POP
+0117   44 OP_CONSTANT        16 '5
+0119   45 OP_CONSTANT        17 '1
+0121    | OP_CONSTANT        18 '1
+0123    | OP_EQUAL
+0124    | OP_JUMP_IF_FALSE  124 -> 138
+0127    | OP_POP
+0128   46 OP_CONSTANT        19 '1
+0130   47 OP_POPN             2 '1
+0132    | OP_JUMP           132 -> 146
+0135   48 OP_JUMP           135 -> 139
+0138    | OP_POP
+0139   49 OP_CONSTANT        20 'no
+0141    | OP_PRINT
+0142   50 OP_LOOP           142 -> 112
+0145    | OP_POP
+0146   51 OP_CONSTANT        21 'yes
+0148    | OP_PRINT
+0149   53 OP_RETURN
+yes
+yes
+yes
+yes
+yes
