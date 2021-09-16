@@ -1,3 +1,1 @@
-- implement 'break';
-- implement 'continue';
 - add fallthrough semantics in 'switch';
