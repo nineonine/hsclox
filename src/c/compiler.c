@@ -50,7 +50,6 @@ typedef struct {
 
 typedef struct Loop {
     int start;
-    int exitJump;
     int body;
     int scopeDepth;
     struct Loop* enclosing;
@@ -214,7 +213,7 @@ static int computeArgsByteSize(const uint8_t* code, int ip) {
 
         case OP_JUMP:
         case OP_JUMP_IF_FALSE:
-        case OP_JUMP_TEMP:
+        case OP_JUMP_BREAK:
         case OP_LOOP:
             return 2;
     }
@@ -224,7 +223,7 @@ static int computeArgsByteSize(const uint8_t* code, int ip) {
 
 static void startLoop(Loop* loop) {
     loop->enclosing = current->loop;
-    loop->start = currentChunk()->count - 1;
+    loop->start = currentChunk()->count;
     loop->scopeDepth = current->scopeDepth;
     current->loop = loop;
 }
@@ -232,7 +231,7 @@ static void startLoop(Loop* loop) {
 static void endLoop() {
     int i = current->loop->body;
     while (i < currentChunk()->count) {
-        if (currentChunk()->code[i] == OP_JUMP_TEMP) {
+        if (currentChunk()->code[i] == OP_JUMP_BREAK) {
             currentChunk()->code[i] = OP_JUMP;
             patchJump(i + 1);
             i += 3;
@@ -512,6 +511,7 @@ ParseRule rules[] = {
     [TOKEN_CONST]         = {NULL,     NULL,   PREC_NONE},
     [TOKEN_WHILE]         = {NULL,     NULL,   PREC_NONE},
     [TOKEN_BREAK]         = {NULL,     NULL,   PREC_NONE},
+    [TOKEN_CONTINUE]      = {NULL,     NULL,   PREC_NONE},
     [TOKEN_SWITCH]        = {NULL,     NULL,   PREC_NONE},
     [TOKEN_CASE]          = {NULL,     NULL,   PREC_NONE},
     [TOKEN_DEFAULT]       = {NULL,     NULL,   PREC_NONE},
@@ -637,6 +637,8 @@ static void forStatement() {
     if (!match(TOKEN_RIGHT_PAREN)) {
         int bodyJump = emitJump(OP_JUMP);
         int incrementStart = currentChunk()->count;
+        // when we 'continue' in for loop, we want to jump here
+        current->loop->start = incrementStart;
         expression();
         emitByte(OP_POP);
         consume(TOKEN_RIGHT_PAREN, "Expect ')' after 'for' clauses.");
@@ -748,7 +750,17 @@ static void breakStatement() {
     }
     consume(TOKEN_SEMICOLON, "Expect ';' after break.");
     discardLocals(current);
-    emitJump(OP_JUMP_TEMP);
+    emitJump(OP_JUMP_BREAK);
+}
+
+static void continueStatement() {
+        if (current->loop == NULL) {
+        error("Cannot use 'continue' outside of a loop.");
+        return;
+    }
+    consume(TOKEN_SEMICOLON, "Expect ';' after continue.");
+    discardLocals(current);
+    emitLoop(current->loop->start);
 }
 
 static void whileStatement() {
@@ -780,6 +792,8 @@ static void synchronize() {
             case TOKEN_CLASS:
             case TOKEN_FUN:
             case TOKEN_VAR:
+            case TOKEN_BREAK:
+            case TOKEN_CONTINUE:
             case TOKEN_CONST:
             case TOKEN_FOR:
             case TOKEN_IF:
@@ -811,6 +825,8 @@ static void statement() {
         printStatement();
     } else if (match(TOKEN_BREAK)) {
         breakStatement();
+    } else if (match(TOKEN_CONTINUE)) {
+        continueStatement();
     } else if (match(TOKEN_FOR)) {
         forStatement();
     } else if (match(TOKEN_IF)) {

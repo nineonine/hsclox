@@ -32,7 +32,7 @@ typedef enum {
     OP_PRINT,
     OP_JUMP,
     OP_JUMP_IF_FALSE,
-    OP_JUMP_TEMP, // used for break and continue
+    OP_JUMP_BREAK,
     OP_LOOP,
     OP_STACK_DUP_1,
     OP_RETURN,
