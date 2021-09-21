@@ -82,3 +82,7 @@ dkms.conf
 
 # ----- IDE -----
 .vscode/
+
+# ----- MISC -----
+test/tests/test.hsclox
+test/tests/test.stdout
