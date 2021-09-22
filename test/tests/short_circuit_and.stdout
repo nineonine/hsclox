@@ -1,4 +1,4 @@
-== code ==
+== <script> ==
 0000    1 OP_FALSE
 0001    | OP_JUMP_IF_FALSE    1 -> 10
 0004    | OP_POP
@@ -11,4 +11,5 @@
 0016    | OP_PRINT
 0017    3 OP_JUMP            17 -> 21
 0020    | OP_POP
-0021    4 OP_RETURN
+0021    4 OP_NIL
+0022    | OP_RETURN

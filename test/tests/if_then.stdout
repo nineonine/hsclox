@@ -1,4 +1,4 @@
-== code ==
+== <script> ==
 0000    1 OP_CONSTANT         0 '5
 0002    | OP_CONSTANT         1 '2
 0004    | OP_GREATER
@@ -10,6 +10,7 @@
 0015    | OP_POP
 0016    4 OP_CONSTANT         3 'after if
 0018    | OP_PRINT
-0019    5 OP_RETURN
+0019    5 OP_NIL
+0020    | OP_RETURN
 then branch
 after if

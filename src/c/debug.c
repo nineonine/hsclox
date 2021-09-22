@@ -32,9 +32,10 @@ static int simpleInstruction(const char* name, int offset) {
     return offset + 1;
 }
 
-static int byteInstruction(const char* name, Chunk* chunk, int offset) {
+static int byteInstruction(const char* name, Chunk* chunk,
+                            int offset) {
     uint8_t slot = chunk->code[offset + 1];
-    printf("%-16s %d4\n", name, slot);
+    printf("%-16s %4d\n", name, slot);
     return offset + 2;
 }
 
@@ -111,6 +112,8 @@ int disassembleInstruction(Chunk* chunk, int offset) {
             return jumpInstruction("OP_JUMP_BREAK", 1, chunk, offset);
         case OP_STACK_DUP_1:
             return simpleInstruction("OP_STACK_DUP_1", offset);
+        case OP_CALL:
+            return byteInstruction("OP_CALL", chunk, offset);
         case OP_RETURN:
             return simpleInstruction("OP_RETURN", offset);
         default:

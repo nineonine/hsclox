@@ -1,1 +1,3 @@
 - add fallthrough semantics in 'switch';
+- algebraic data types
+- pattern matching

@@ -5,7 +5,6 @@
 #include "value.h"
 
 #define LONG_CONSTANT_SIZE 3 // 24 bit
-#define STACK_MAX 256
 
 typedef enum {
     OP_CONSTANT,
@@ -35,6 +34,7 @@ typedef enum {
     OP_JUMP_BREAK,
     OP_LOOP,
     OP_STACK_DUP_1,
+    OP_CALL,
     OP_RETURN,
 } OpCode;
 

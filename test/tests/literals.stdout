@@ -1,4 +1,4 @@
-== code ==
+== <script> ==
 0000    1 OP_CONSTANT         0 '1
 0002    | OP_PRINT
 0003    2 OP_TRUE
@@ -9,7 +9,8 @@
 0008    | OP_PRINT
 0009    5 OP_CONSTANT         1 'hi
 0011    | OP_PRINT
-0012    6 OP_RETURN
+0012    6 OP_NIL
+0013    | OP_RETURN
 1
 true
 false

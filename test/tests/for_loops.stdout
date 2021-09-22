@@ -1,18 +1,18 @@
-== code ==
+== <script> ==
 0000    1 OP_CONSTANT         0 '0
-0002    | OP_GET_LOCAL     04
+0002    | OP_GET_LOCAL        1
 0004    | OP_CONSTANT         1 '5
 0006    | OP_LESS
 0007    | OP_JUMP_IF_FALSE    7 -> 31
 0010    | OP_POP
 0011    | OP_JUMP            11 -> 25
-0014    | OP_GET_LOCAL     04
+0014    | OP_GET_LOCAL        1
 0016    | OP_CONSTANT         2 '1
 0018    | OP_ADD
-0019    | OP_SET_LOCAL     04
+0019    | OP_SET_LOCAL        1
 0021    | OP_POP
 0022    | OP_LOOP            22 -> 2
-0025    2 OP_GET_LOCAL     04
+0025    2 OP_GET_LOCAL        1
 0027    | OP_PRINT
 0028    3 OP_LOOP            28 -> 14
 0031    | OP_POP
@@ -37,7 +37,7 @@
 0064    8 OP_LOOP            64 -> 50
 0067    | OP_POP
 0068   10 OP_CONSTANT         7 '1
-0070    | OP_GET_LOCAL     04
+0070    | OP_GET_LOCAL        1
 0072    | OP_CONSTANT         8 '1
 0074    | OP_ADD
 0075    | OP_CONSTANT         9 '7
@@ -45,12 +45,12 @@
 0078    | OP_NOT
 0079    | OP_JUMP_IF_FALSE   79 -> 97
 0082    | OP_POP
-0083   11 OP_GET_LOCAL     04
+0083   11 OP_GET_LOCAL        1
 0085    | OP_PRINT
-0086   12 OP_GET_LOCAL     04
+0086   12 OP_GET_LOCAL        1
 0088    | OP_CONSTANT        10 '1
 0090    | OP_ADD
-0091    | OP_SET_LOCAL     04
+0091    | OP_SET_LOCAL        1
 0093    | OP_POP
 0094   13 OP_LOOP            94 -> 70
 0097    | OP_POP
@@ -72,7 +72,8 @@
 0123    | OP_POP
 0124   19 OP_LOOP           124 -> 103
 0127    | OP_POP
-0128   20 OP_RETURN
+0128   20 OP_NIL
+0129    | OP_RETURN
 0
 1
 2

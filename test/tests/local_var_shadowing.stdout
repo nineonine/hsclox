@@ -1,11 +1,12 @@
-== code ==
+== <script> ==
 0000    2 OP_CONSTANT         0 'outer
 0002    4 OP_CONSTANT         1 'inner
 0004    5 OP_CONSTANT         2 'a from 
-0006    | OP_GET_LOCAL     14
+0006    | OP_GET_LOCAL        2
 0008    | OP_ADD
 0009    | OP_PRINT
 0010    6 OP_POP
 0011    7 OP_POP
-0012    8 OP_RETURN
+0012    8 OP_NIL
+0013    | OP_RETURN
 a from inner

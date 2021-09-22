@@ -1,4 +1,4 @@
-== code ==
+== <script> ==
 0000    2 OP_CONSTANT         0 '1
 0002    4 OP_CONSTANT         1 '2
 0004    6 OP_CONSTANT         2 '3
@@ -9,13 +9,14 @@
 0013   12 OP_POP
 0014   13 OP_CONSTANT         5 '6
 0016   15 OP_CONSTANT         6 '7
-0018   16 OP_GET_LOCAL     04
-0020    | OP_GET_LOCAL     14
+0018   16 OP_GET_LOCAL        1
+0020    | OP_GET_LOCAL        2
 0022    | OP_ADD
-0023    | OP_GET_LOCAL     24
+0023    | OP_GET_LOCAL        3
 0025    | OP_ADD
 0026    | OP_PRINT
 0027   17 OP_POP
 0028   18 OP_POPN             2 '3
-0030   19 OP_RETURN
+0030   19 OP_NIL
+0031    | OP_RETURN
 14
