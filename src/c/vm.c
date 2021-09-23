@@ -296,7 +296,6 @@ static InterpretResult run() {
             case OP_JUMP: {
                 uint16_t offset = READ_SHORT();
                 frame->ip += offset;
-                vm.ip += offset;
                 break;
             }
             case OP_JUMP_IF_FALSE: {
