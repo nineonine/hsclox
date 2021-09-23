@@ -1,0 +1,10 @@
+{
+    "nofib": {
+        "time": 4.11934,
+        "threshold": 0.075
+    },
+    "sumloop": {
+        "time": 4.53367,
+        "threshold": 0.05
+    }
+}

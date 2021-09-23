@@ -29,7 +29,10 @@ run:	## run interpreter
 	@./$(EXE) $(SRC)
 
 test:	## invoke tests
-	@python3 test/driver.py -v
+	@python3 test/driver.py -u regression -v
+
+perftest:	## invoke perf tests
+	@python3 test/driver.py -u perf -v
 
 help:	## Display this message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'

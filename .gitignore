@@ -86,3 +86,6 @@ dkms.conf
 # ----- MISC -----
 test/tests/test.hsclox
 test/tests/test.stdout
+
+# ---- PYTHON ----
+__pycache__/
