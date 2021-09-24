@@ -28,7 +28,6 @@ void updateLineInfo(Chunk* chunk, int line) {
 
 // return -1 if line not found
 int findLine(Chunk* chunk, int offset) {
-    assert(offset>=0);
     if (chunk->lines == NULL) return -1;
     int lc = chunk->linesCount;
     for (int i = 0; i < lc; i+=2) {
