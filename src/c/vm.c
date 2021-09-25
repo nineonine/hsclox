@@ -109,6 +109,17 @@ static bool call(ObjFunction* function, int argCount) {
     return true;
 }
 
+static bool checkArgTypes(ValueType* expectedTypes, Value* args,
+                int argCount) {
+    for (int i = 0; i < argCount; i ++) {
+        if (expectedTypes[i] == args[i].type) {
+            continue;
+        }
+        return false;
+    }
+    return true;
+}
+
 static bool callNative(ObjNative* nativefn, int argCount) {
     if (nativefn->arity != argCount) {
         runTimeError("expected %d arguments but got %d.",
@@ -118,6 +129,13 @@ static bool callNative(ObjNative* nativefn, int argCount) {
 
     if (vm.frameCount == FRAMES_MAX) {
         runTimeError("Stack overflow.");
+        return false;
+    }
+
+    bool typesMatch =
+        checkArgTypes(nativefn->argTypes, vm.sp - argCount, argCount);
+    if (!typesMatch) {
+        runTimeError("Argument type mismatch.");
         return false;
     }
 

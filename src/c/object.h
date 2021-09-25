@@ -40,6 +40,7 @@ typedef struct {
     Obj obj;
     int arity;
     NativeFn function;
+    ValueType argTypes[];
 } ObjNative;
 
 struct ObjString {
@@ -50,7 +51,7 @@ struct ObjString {
 };
 
 ObjFunction* newFunction();
-ObjNative* newNative(NativeFn function, int arity);
+ObjNative* newNative(NativeFn function, int arity, ValueType argTypes[]);
 ObjString* takeString(char* chars, int length);
 ObjString* copyString(const char* chars, int length);
 void printObject(Value value);

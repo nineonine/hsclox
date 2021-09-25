@@ -29,10 +29,11 @@ ObjFunction* newFunction() {
     return function;
 }
 
-ObjNative* newNative(NativeFn function, int arity) {
-    ObjNative* native = ALLOCATE_OBJ(ObjNative, OBJ_NATIVE);
+ObjNative* newNative(NativeFn function, int arity, ValueType argTypes[]) {
+    ObjNative* native = ALLOCATE_OBJ_SIZE(ObjNative, OBJ_NATIVE, ObjType, arity);
     native->function = function;
     native->arity = arity;
+    memcpy(native->argTypes, argTypes, arity);
     return native;
 }
 
