@@ -161,7 +161,7 @@
 0009  115 OP_NIL
 0010    | OP_RETURN
 == set ==
-0000  125 OP_CONSTANT         0 'undefined
+0000  125 OP_CONSTANT         0 'updated
 0002    | OP_SET_UPVALUE      0
 0004    | OP_POP
 0005    | OP_NIL
@@ -292,4 +292,4 @@ value
 assigned
 outside
 outside
-undefined
+updated
