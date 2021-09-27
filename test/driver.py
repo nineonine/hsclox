@@ -3,7 +3,7 @@ import os
 import subprocess
 import sys
 import json
-import pprint
+import difflib
 
 import pprutils
 
@@ -96,6 +96,11 @@ def execTestPgm(interp, test, timeout, isPerf=False):
         stderr=subprocess.PIPE,
         timeout=timeout)
 
+def printDiffs(snapshot, outcome):
+    for line in difflib.unified_diff(snapshot.decode("utf-8").splitlines(),
+                                     outcome.decode("utf-8").splitlines()):
+        printV(line)
+
 def runTest(interp, test):
     printV("Running " + test, 2)
     try:   outcome = execTestPgm(interp, test, STANDARD_TEST_TIMEOUT, isPerf=False)
@@ -109,6 +114,7 @@ def runTest(interp, test):
     snapshot = readSnapshot(test)
     if (not snapshot == outcome):
         print(pprutils.uhoh("{} failed.".format(test)))
+        printDiffs(snapshot, outcome) # prints only when in verbose
         sys.exit(1)
 
 def runTests(tests):
