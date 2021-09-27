@@ -117,7 +117,7 @@
 0013   86 OP_NIL
 0014    | OP_RETURN
 == inner ==
-0000   92 OP_CONSTANT         0 'assigned
+0000   92 OP_CONSTANT         0 'after
 0002    | OP_SET_UPVALUE      0
 0004    | OP_POP
 0005   93 OP_NIL
@@ -259,8 +259,8 @@
 0129    | OP_DEFINE_GLOBAL   27 'outer7
 0131  116 OP_GET_GLOBAL      27 'outer7
 0133    | OP_CALL             0
-0135    | OP_DEFINE_GLOBAL   29 'closure7main
-0137  117 OP_GET_GLOBAL      29 'closure7main
+0135    | OP_DEFINE_GLOBAL   29 'clsr7
+0137  117 OP_GET_GLOBAL      29 'clsr7
 0139    | OP_CALL             0
 0141    | OP_POP
 0142  119 OP_NIL
@@ -289,7 +289,7 @@ return from outer
 create inner closure
 value
 10
-assigned
+after
 outside
 outside
 updated

@@ -89,7 +89,7 @@ outer4()()();
 fun outer5() {
     var x = "before";
     fun inner() {
-        x = "assigned";
+        x = "after";
     }
     inner();
     print x;
@@ -113,8 +113,8 @@ fun outer7() {
 
     return inner;
 }
-var closure7 = outer7();
-closure7();
+var clsr7 = outer7();
+clsr7();
 
 var globalSet;
 var globalGet;
