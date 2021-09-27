@@ -101,6 +101,7 @@ def runTest(interp, test):
     try:   outcome = execTestPgm(interp, test, STANDARD_TEST_TIMEOUT, isPerf=False)
     except subprocess.CalledProcessError as e:
         outcome=e.stderr
+    printV(outcome.decode("utf-8"))
     if (args.snapshot):
         print("Updating snapshot for " + test)
         writeSnapshot(test, outcome)
