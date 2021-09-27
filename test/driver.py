@@ -165,7 +165,8 @@ def printHerald():
 def run():
     printHerald()
     if args.suite in [REGRESSION, ALL]: runTests(tests())
-    if args.suite in [PERF, ALL]:       runPerfTests(perfTests())
+    if args.test == ALL: # run perf only when ALL regression tests are executed
+        if args.suite in [PERF, ALL]:       runPerfTests(perfTests())
 
 # Execute
 run()
