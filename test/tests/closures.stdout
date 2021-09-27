@@ -1,0 +1,295 @@
+== inner1 ==
+0000    5 OP_GET_UPVALUE      0
+0002    | OP_PRINT
+0003    6 OP_NIL
+0004    | OP_RETURN
+== outer1 ==
+0000    3 OP_CONSTANT         0 'outer1
+0002    6 OP_CLOSURE          1 <fn inner1>
+0004     |                    local 1
+0006    7 OP_GET_LOCAL        2
+0008    | OP_CALL             0
+0010    | OP_POP
+0011    8 OP_NIL
+0012    | OP_RETURN
+== closure ==
+0000   14 OP_GET_UPVALUE      0
+0002    | OP_PRINT
+0003   15 OP_NIL
+0004    | OP_RETURN
+== makeClosure ==
+0000   12 OP_CONSTANT         0 'local1
+0002   15 OP_CLOSURE          1 <fn closure>
+0004     |                    local 1
+0006   16 OP_GET_LOCAL        2
+0008    | OP_RETURN
+0009   17 OP_NIL
+0010    | OP_RETURN
+== closure ==
+0000   24 OP_GET_UPVALUE      0
+0002    | OP_PRINT
+0003   25 OP_NIL
+0004    | OP_RETURN
+== makeClosure2 ==
+0000   25 OP_CLOSURE          0 <fn closure>
+0002     |                    local 1
+0004   26 OP_GET_LOCAL        2
+0006    | OP_RETURN
+0007   27 OP_NIL
+0008    | OP_RETURN
+== inner2 ==
+0000   39 OP_GET_UPVALUE      0
+0002    | OP_PRINT
+0003   40 OP_NIL
+0004    | OP_RETURN
+== outer2 ==
+0000   35 OP_CONSTANT         0 '1
+0002   36 OP_CONSTANT         1 '2
+0004    | OP_SET_LOCAL        1
+0006    | OP_POP
+0007   40 OP_CLOSURE          2 <fn inner2>
+0009     |                    local 1
+0011   42 OP_GET_LOCAL        2
+0013    | OP_CALL             0
+0015    | OP_POP
+0016   43 OP_NIL
+0017    | OP_RETURN
+== f ==
+0000   49 OP_GET_UPVALUE      0
+0002    | OP_PRINT
+0003   50 OP_NIL
+0004    | OP_RETURN
+== inner ==
+0000   59 OP_GET_UPVALUE      0
+0002    | OP_PRINT
+0003   60 OP_NIL
+0004    | OP_RETURN
+== middle ==
+0000   60 OP_CLOSURE          0 <fn inner>
+0002     |                    upvalue 0
+0004   62 OP_CONSTANT         1 'create inner closure
+0006    | OP_PRINT
+0007   63 OP_GET_LOCAL        1
+0009    | OP_RETURN
+0010   64 OP_NIL
+0011    | OP_RETURN
+== outer3 ==
+0000   55 OP_CONSTANT         0 'value
+0002   64 OP_CLOSURE          1 <fn middle>
+0004     |                    local 1
+0006   66 OP_CONSTANT         2 'return from outer
+0008    | OP_PRINT
+0009   67 OP_GET_LOCAL        2
+0011    | OP_RETURN
+0012   68 OP_NIL
+0013    | OP_RETURN
+== inner ==
+0000   81 OP_GET_UPVALUE      0
+0002    | OP_GET_UPVALUE      1
+0004    | OP_ADD
+0005    | OP_GET_UPVALUE      2
+0007    | OP_ADD
+0008    | OP_GET_UPVALUE      3
+0010    | OP_ADD
+0011    | OP_PRINT
+0012   82 OP_NIL
+0013    | OP_RETURN
+== middle ==
+0000   78 OP_CONSTANT         0 '3
+0002   79 OP_CONSTANT         1 '4
+0004   82 OP_CLOSURE          2 <fn inner>
+0006     |                    upvalue 0
+0008     |                    upvalue 1
+0010     |                    local 1
+0012     |                    local 2
+0014   83 OP_GET_LOCAL        3
+0016    | OP_RETURN
+0017   84 OP_NIL
+0018    | OP_RETURN
+== outer4 ==
+0000   75 OP_CONSTANT         0 '1
+0002   76 OP_CONSTANT         1 '2
+0004   84 OP_CLOSURE          2 <fn middle>
+0006     |                    local 1
+0008     |                    local 2
+0010   85 OP_GET_LOCAL        3
+0012    | OP_RETURN
+0013   86 OP_NIL
+0014    | OP_RETURN
+== inner ==
+0000   92 OP_CONSTANT         0 'assigned
+0002    | OP_SET_UPVALUE      0
+0004    | OP_POP
+0005   93 OP_NIL
+0006    | OP_RETURN
+== outer5 ==
+0000   90 OP_CONSTANT         0 'before
+0002   93 OP_CLOSURE          1 <fn inner>
+0004     |                    local 1
+0006   94 OP_GET_LOCAL        2
+0008    | OP_CALL             0
+0010    | OP_POP
+0011   95 OP_GET_LOCAL        1
+0013    | OP_PRINT
+0014   96 OP_NIL
+0015    | OP_RETURN
+== inner ==
+0000  102 OP_GET_UPVALUE      0
+0002    | OP_PRINT
+0003  103 OP_NIL
+0004    | OP_RETURN
+== outer6 ==
+0000  100 OP_CONSTANT         0 'outside
+0002  103 OP_CLOSURE          1 <fn inner>
+0004     |                    local 1
+0006  104 OP_GET_LOCAL        2
+0008    | OP_CALL             0
+0010    | OP_POP
+0011  105 OP_NIL
+0012    | OP_RETURN
+== inner ==
+0000  111 OP_GET_UPVALUE      0
+0002    | OP_PRINT
+0003  112 OP_NIL
+0004    | OP_RETURN
+== outer7 ==
+0000  109 OP_CONSTANT         0 'outside
+0002  112 OP_CLOSURE          1 <fn inner>
+0004     |                    local 1
+0006  114 OP_GET_LOCAL        2
+0008    | OP_RETURN
+0009  115 OP_NIL
+0010    | OP_RETURN
+== set ==
+0000  125 OP_CONSTANT         0 'undefined
+0002    | OP_SET_UPVALUE      0
+0004    | OP_POP
+0005    | OP_NIL
+0006    | OP_RETURN
+== get ==
+0000  126 OP_GET_UPVALUE      0
+0002    | OP_PRINT
+0003    | OP_NIL
+0004    | OP_RETURN
+== main ==
+0000  123 OP_CONSTANT         0 'initial
+0002  125 OP_CLOSURE          1 <fn set>
+0004     |                    local 1
+0006  126 OP_CLOSURE          2 <fn get>
+0008     |                    local 1
+0010  128 OP_GET_LOCAL        2
+0012    | OP_SET_GLOBAL       3 'globalSet
+0014    | OP_POP
+0015  129 OP_GET_LOCAL        3
+0017    | OP_SET_GLOBAL       4 'globalGet
+0019    | OP_POP
+0020  130 OP_NIL
+0021    | OP_RETURN
+== <script> ==
+0000    1 OP_CONSTANT         1 'global_x1
+0002    | OP_DEFINE_GLOBAL    0 'x1
+0004    8 OP_CLOSURE          3 <fn outer1>
+0006    | OP_DEFINE_GLOBAL    2 'outer1
+0008    9 OP_GET_GLOBAL       2 'outer1
+0010    | OP_CALL             0
+0012    | OP_POP
+0013   17 OP_CLOSURE          5 <fn makeClosure>
+0015    | OP_DEFINE_GLOBAL    4 'makeClosure
+0017   19 OP_GET_GLOBAL       4 'makeClosure
+0019    | OP_CALL             0
+0021    | OP_DEFINE_GLOBAL    6 'closure
+0023   20 OP_GET_GLOBAL       6 'closure
+0025    | OP_CALL             0
+0027    | OP_POP
+0028   27 OP_CLOSURE          8 <fn makeClosure2>
+0030    | OP_DEFINE_GLOBAL    7 'makeClosure2
+0032   29 OP_GET_GLOBAL       7 'makeClosure2
+0034    | OP_CONSTANT        10 'd1
+0036    | OP_CALL             1
+0038    | OP_DEFINE_GLOBAL    9 'd1
+0040   30 OP_GET_GLOBAL       7 'makeClosure2
+0042    | OP_CONSTANT        12 'a6
+0044    | OP_CALL             1
+0046    | OP_DEFINE_GLOBAL   11 'a6
+0048   31 OP_GET_GLOBAL       9 'd1
+0050    | OP_CALL             0
+0052    | OP_POP
+0053   32 OP_GET_GLOBAL      11 'a6
+0055    | OP_CALL             0
+0057    | OP_POP
+0058   43 OP_CLOSURE         14 <fn outer2>
+0060    | OP_DEFINE_GLOBAL   13 'outer2
+0062   46 OP_CONSTANT        15 '3
+0064   50 OP_CLOSURE         16 <fn f>
+0066     |                    local 1
+0068   51 OP_GET_GLOBAL      13 'outer2
+0070    | OP_CALL             0
+0072    | OP_POP
+0073   52 OP_POP
+0074    | OP_CLOSE_UPVALUE
+0075   68 OP_CLOSURE         18 <fn outer3>
+0077    | OP_DEFINE_GLOBAL   17 'outer3
+0079   70 OP_GET_GLOBAL      17 'outer3
+0081    | OP_CALL             0
+0083    | OP_DEFINE_GLOBAL   19 'mid
+0085   71 OP_GET_GLOBAL      19 'mid
+0087    | OP_CALL             0
+0089    | OP_DEFINE_GLOBAL   20 'in
+0091   72 OP_GET_GLOBAL      20 'in
+0093    | OP_CALL             0
+0095    | OP_POP
+0096   86 OP_CLOSURE         22 <fn outer4>
+0098    | OP_DEFINE_GLOBAL   21 'outer4
+0100   87 OP_GET_GLOBAL      21 'outer4
+0102    | OP_CALL             0
+0104    | OP_CALL             0
+0106    | OP_CALL             0
+0108    | OP_POP
+0109   96 OP_CLOSURE         24 <fn outer5>
+0111    | OP_DEFINE_GLOBAL   23 'outer5
+0113   97 OP_GET_GLOBAL      23 'outer5
+0115    | OP_CALL             0
+0117    | OP_POP
+0118  105 OP_CLOSURE         26 <fn outer6>
+0120    | OP_DEFINE_GLOBAL   25 'outer6
+0122  106 OP_GET_GLOBAL      25 'outer6
+0124    | OP_CALL             0
+0126    | OP_POP
+0127  115 OP_CLOSURE         28 <fn outer7>
+0129    | OP_DEFINE_GLOBAL   27 'outer7
+0131  116 OP_GET_GLOBAL      27 'outer7
+0133    | OP_CALL             0
+0135    | OP_DEFINE_GLOBAL   29 'closure7main
+0137  117 OP_GET_GLOBAL      29 'closure7main
+0139    | OP_CALL             0
+0141    | OP_POP
+0142  119 OP_NIL
+0143    | OP_DEFINE_GLOBAL   30 'globalSet
+0145  120 OP_NIL
+0146    | OP_DEFINE_GLOBAL   31 'globalGet
+0148  130 OP_CLOSURE         33 <fn main>
+0150    | OP_DEFINE_GLOBAL   32 'main
+0152  132 OP_GET_GLOBAL      32 'main
+0154    | OP_CALL             0
+0156    | OP_POP
+0157  133 OP_GET_GLOBAL      30 'globalSet
+0159    | OP_CALL             0
+0161    | OP_POP
+0162  134 OP_GET_GLOBAL      31 'globalGet
+0164    | OP_CALL             0
+0166    | OP_POP
+0167  135 OP_NIL
+0168    | OP_RETURN
+outer1
+local1
+d1
+a6
+2
+return from outer
+create inner closure
+value
+10
+assigned
+outside
+outside
+undefined

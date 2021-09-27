@@ -5,6 +5,6 @@
     },
     "sumloop": {
         "time": 4.53367,
-        "threshold": 0.075
+        "threshold": 0.1
     }
 }

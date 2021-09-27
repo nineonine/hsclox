@@ -113,7 +113,8 @@
 0201    | OP_POP
 0202   49 OP_GET_LOCAL        2
 0204    | OP_PRINT
-0205   50 OP_POPN             2 '10
+0205   50 OP_POP
+0206    | OP_POP
 0207   53 OP_CONSTANT        25 '0
 0209    | OP_GET_LOCAL        1
 0211    | OP_CONSTANT        26 '5

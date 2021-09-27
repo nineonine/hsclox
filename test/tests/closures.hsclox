@@ -1,0 +1,134 @@
+var x1 = "global_x1";
+fun outer1() {
+    var x = "outer1";
+    fun inner1() {
+        print x;
+    }
+    inner1();
+}
+outer1();
+
+fun makeClosure() {
+    var local1 = "local1";
+    fun closure() {
+        print local1;
+    }
+    return closure;
+}
+
+var closure = makeClosure();
+closure();
+
+fun makeClosure2(value) {
+    fun closure() {
+        print value;
+    }
+    return closure;
+}
+
+var d1 = makeClosure2("d1");
+var a6 = makeClosure2("a6");
+d1();
+a6();
+
+fun outer2() {
+    var x = 1;
+    x = 2;
+
+    fun inner2() {
+        print x;
+    }
+
+    inner2();
+}
+
+{
+    var x = 3;
+
+    fun f() {
+        print x;
+    }
+    outer2();
+}
+
+fun outer3() {
+    var x = "value";
+
+    fun middle() {
+        fun inner() {
+            print x;
+        }
+
+        print "create inner closure";
+        return inner;
+    }
+
+    print "return from outer";
+    return middle;
+}
+
+var mid = outer3();
+var in = mid();
+in();
+
+fun outer4() {
+    var a = 1;
+    var b = 2;
+    fun middle() {
+        var c = 3;
+        var d = 4;
+        fun inner() {
+            print a + b + c + d;
+        }
+        return inner;
+    }
+    return middle;
+}
+outer4()()();
+
+fun outer5() {
+    var x = "before";
+    fun inner() {
+        x = "assigned";
+    }
+    inner();
+    print x;
+}
+outer5();
+
+fun outer6() {
+    var x = "outside";
+    fun inner() {
+        print x;
+    }
+    inner();
+}
+outer6();
+
+fun outer7() {
+    var x = "outside";
+    fun inner() {
+        print x;
+    }
+
+    return inner;
+}
+var closure7 = outer7();
+closure7();
+
+var globalSet;
+var globalGet;
+
+fun main() {
+    var a = "initial";
+
+    fun set() { a = "undefined"; }
+    fun get() { print a; }
+
+    globalSet = set;
+    globalGet = get;
+}
+
+main();
+globalSet();
+globalGet();
