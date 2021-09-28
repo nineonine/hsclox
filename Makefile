@@ -8,8 +8,10 @@ EXE := ihsclox
 
 CFLAGS := -Wall -g
 CPPFLAGS=-DDEBUG_PRINT_CODE
-ifeq ($(DEBUG), 1)
+ifeq ($(DEBUG), 1) # DEBUGGING EXECUTION
 	CPPFLAGS += -DDEBUG_TRACE_EXECUTION
+else ifeq ($(DEBUG), 2) # DEBUGGING GC
+	CPPFLAGS += -DDEBUG_LOG_GC -DDEBUG_STRESS_GC
 endif
 
 .PHONY: clean run test help
