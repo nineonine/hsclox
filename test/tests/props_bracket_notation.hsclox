@@ -1,0 +1,10 @@
+class Bar {}
+var b = Bar();
+b.c = "hi";
+print b["c"];
+b["k"] = "k!";
+print b.k;
+b["a"+"z"] = "a_z";
+print b.az;
+b["kay"] = "k";
+print b[b["kay"]];

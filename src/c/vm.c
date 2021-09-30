@@ -337,6 +337,49 @@ static InterpretResult run() {
                 *frame->closure->upvalues[slot]->location = peek(0);
                 break;
             }
+            case OP_GET_EXPR_PROPERTY: {
+                if (!IS_INSTANCE(peek(1))) {
+                    runTimeError("Only instances have properties.");
+                    return INTERPRET_RUNTIME_ERROR;
+                }
+                ObjInstance* instance = AS_INSTANCE(peek(1));
+
+                if (!IS_STRING(peek(0))) {
+                    runTimeError("Only strings allowed as fields.");
+                    return INTERPRET_RUNTIME_ERROR;
+                }
+
+                ObjString* name = AS_STRING(peek(0));
+
+                Value value;
+                if (tableGet(&instance->fields, name, &value)) {
+                    popN(2); // Instance and expression
+                    push(value);
+                    break;
+                }
+
+                runTimeError("Undefined property of '%s'.", name->chars);
+                return INTERPRET_RUNTIME_ERROR;
+            }
+            case OP_SET_EXPR_PROPERTY: {
+                if (!IS_INSTANCE(peek(2))) {
+                    runTimeError("Only instances have properties.");
+                    return INTERPRET_RUNTIME_ERROR;
+                }
+                ObjInstance* instance = AS_INSTANCE(peek(2));
+
+                if (!IS_STRING(peek(1))) {
+                    runTimeError("Only strings allowed as fields.");
+                    return INTERPRET_RUNTIME_ERROR;
+                }
+
+                ObjString* name = AS_STRING(peek(1));
+                tableSet(&instance->fields, name, peek(0));
+                Value value = pop();
+                popN(2);
+                push(value);
+                break;
+            }
             case OP_GET_PROPERTY: {
                 if (!IS_INSTANCE(peek(0))) {
                     runTimeError("Only instances have properties.");

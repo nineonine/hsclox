@@ -1,0 +1,3 @@
+class B {}
+var b = B();
+print b["wut"];

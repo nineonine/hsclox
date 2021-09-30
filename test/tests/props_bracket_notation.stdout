@@ -1,0 +1,49 @@
+== <script> ==
+0000    1 OP_CLASS            0 'Bar
+0002    | OP_DEFINE_GLOBAL    0 'Bar
+0004    2 OP_GET_GLOBAL       0 'Bar
+0006    | OP_CALL             0
+0008    | OP_DEFINE_GLOBAL    1 'b
+0010    3 OP_GET_GLOBAL       1 'b
+0012    | OP_CONSTANT         3 'hi
+0014    | OP_SET_PROPERTY     2 'c
+0016    | OP_POP
+0017    4 OP_GET_GLOBAL       1 'b
+0019    | OP_CONSTANT         4 'c
+0021    | OP_GET_EXPR_PROPERTY
+0022    | OP_PRINT
+0023    5 OP_GET_GLOBAL       1 'b
+0025    | OP_CONSTANT         5 'k
+0027    | OP_CONSTANT         6 'k!
+0029    | OP_SET_EXPR_PROPERTY
+0030    | OP_POP
+0031    6 OP_GET_GLOBAL       1 'b
+0033    | OP_GET_PROPERTY     5 'k
+0035    | OP_PRINT
+0036    7 OP_GET_GLOBAL       1 'b
+0038    | OP_CONSTANT         7 'a
+0040    | OP_CONSTANT         8 'z
+0042    | OP_ADD
+0043    | OP_CONSTANT         9 'a_z
+0045    | OP_SET_EXPR_PROPERTY
+0046    | OP_POP
+0047    8 OP_GET_GLOBAL       1 'b
+0049    | OP_GET_PROPERTY    10 'az
+0051    | OP_PRINT
+0052    9 OP_GET_GLOBAL       1 'b
+0054    | OP_CONSTANT        11 'kay
+0056    | OP_CONSTANT        12 'k
+0058    | OP_SET_EXPR_PROPERTY
+0059    | OP_POP
+0060   10 OP_GET_GLOBAL       1 'b
+0062    | OP_GET_GLOBAL       1 'b
+0064    | OP_CONSTANT        13 'kay
+0066    | OP_GET_EXPR_PROPERTY
+0067    | OP_GET_EXPR_PROPERTY
+0068    | OP_PRINT
+0069   11 OP_NIL
+0070    | OP_RETURN
+hi
+k!
+a_z
+k!
