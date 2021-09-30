@@ -1,0 +1,23 @@
+== <script> ==
+0000    1 OP_CLASS            0 'Pair
+0002    | OP_DEFINE_GLOBAL    0 'Pair
+0004    3 OP_GET_GLOBAL       0 'Pair
+0006    | OP_CALL             0
+0008    | OP_DEFINE_GLOBAL    1 'pair
+0010    4 OP_GET_GLOBAL       1 'pair
+0012    | OP_CONSTANT         3 '1
+0014    | OP_SET_PROPERTY     2 'first
+0016    | OP_POP
+0017    5 OP_GET_GLOBAL       1 'pair
+0019    | OP_CONSTANT         5 '2
+0021    | OP_SET_PROPERTY     4 'second
+0023    | OP_POP
+0024    6 OP_GET_GLOBAL       1 'pair
+0026    | OP_GET_PROPERTY     2 'first
+0028    | OP_GET_GLOBAL       1 'pair
+0030    | OP_GET_PROPERTY     4 'second
+0032    | OP_ADD
+0033    | OP_PRINT
+0034    7 OP_NIL
+0035    | OP_RETURN
+3

@@ -1,0 +1,4 @@
+class Foo {}
+var f = Foo();
+var a = 1;
+a + b.c = 3
