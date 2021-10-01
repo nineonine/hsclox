@@ -1,0 +1,163 @@
+== bacon ==
+0000    2 OP_NIL
+0001    | OP_RETURN
+== eggs ==
+0000    3 OP_NIL
+0001    | OP_RETURN
+== sayName ==
+0000   11 OP_GET_LOCAL        0
+0002    | OP_GET_PROPERTY     0 'name
+0004    | OP_PRINT
+0005   12 OP_NIL
+0006    | OP_RETURN
+== topping ==
+0000   23 OP_CONSTANT         0 'scone with 
+0002    | OP_GET_LOCAL        1
+0004    | OP_ADD
+0005    | OP_CONSTANT         1 ' and 
+0007    | OP_ADD
+0008    | OP_GET_LOCAL        2
+0010    | OP_ADD
+0011    | OP_PRINT
+0012   24 OP_NIL
+0013    | OP_RETURN
+== f ==
+0000   33 OP_GET_UPVALUE      0
+0002    | OP_PRINT
+0003   34 OP_NIL
+0004    | OP_RETURN
+== method ==
+0000   34 OP_CLOSURE          0 <fn f>
+0002     |                    local 0
+0004   36 OP_GET_LOCAL        1
+0006    | OP_CALL             0
+0008    | OP_POP
+0009   37 OP_NIL
+0010    | OP_RETURN
+== init ==
+0000   43 OP_GET_LOCAL        0
+0002    | OP_RETURN
+== init ==
+0000   50 OP_GET_LOCAL        0
+0002    | OP_GET_LOCAL        1
+0004    | OP_SET_PROPERTY     0 'coffee
+0006    | OP_POP
+0007   51 OP_GET_LOCAL        0
+0009    | OP_RETURN
+== brew ==
+0000   54 OP_GET_LOCAL        0
+0002    | OP_GET_PROPERTY     0 'coffee
+0004    | OP_NIL
+0005    | OP_EQUAL
+0006    | OP_NOT
+0007    | OP_JUMP_IF_FALSE    7 -> 22
+0010    | OP_POP
+0011   55 OP_CONSTANT         1 'Enjoy your cup of 
+0013    | OP_GET_LOCAL        0
+0015    | OP_GET_PROPERTY     0 'coffee
+0017    | OP_ADD
+0018    | OP_PRINT
+0019   56 OP_JUMP            19 -> 26
+0022    | OP_POP
+0023   57 OP_CONSTANT         2 'No reusing the grounds!
+0025    | OP_PRINT
+0026   60 OP_GET_LOCAL        0
+0028    | OP_NIL
+0029    | OP_SET_PROPERTY     0 'coffee
+0031    | OP_POP
+0032   61 OP_NIL
+0033    | OP_RETURN
+== <script> ==
+0000    1 OP_CLASS            0 'Brunch
+0002    | OP_DEFINE_GLOBAL    0 'Brunch
+0004    | OP_GET_GLOBAL       0 'Brunch
+0006    2 OP_CLOSURE          2 <fn bacon>
+0008    | OP_METHOD           1 'bacon
+0010    3 OP_CLOSURE          4 <fn eggs>
+0012    | OP_METHOD           3 'eggs
+0014    4 OP_POP
+0015    6 OP_GET_GLOBAL       0 'Brunch
+0017    | OP_CALL             0
+0019    | OP_DEFINE_GLOBAL    5 'brunch
+0021    7 OP_GET_GLOBAL       5 'brunch
+0023    | OP_GET_PROPERTY     3 'eggs
+0025    | OP_DEFINE_GLOBAL    3 'eggs
+0027    9 OP_CLASS            6 'Person
+0029    | OP_DEFINE_GLOBAL    6 'Person
+0031    | OP_GET_GLOBAL       6 'Person
+0033   12 OP_CLOSURE          8 <fn sayName>
+0035    | OP_METHOD           7 'sayName
+0037   13 OP_POP
+0038   15 OP_GET_GLOBAL       6 'Person
+0040    | OP_CALL             0
+0042    | OP_DEFINE_GLOBAL    9 'jane
+0044   16 OP_GET_GLOBAL       9 'jane
+0046    | OP_CONSTANT        11 'Jane
+0048    | OP_SET_PROPERTY    10 'name
+0050    | OP_POP
+0051   18 OP_GET_GLOBAL       9 'jane
+0053    | OP_GET_PROPERTY     7 'sayName
+0055    | OP_DEFINE_GLOBAL   12 'm
+0057   19 OP_GET_GLOBAL      12 'm
+0059    | OP_CALL             0
+0061    | OP_POP
+0062   21 OP_CLASS           13 'Scone
+0064    | OP_DEFINE_GLOBAL   13 'Scone
+0066    | OP_GET_GLOBAL      13 'Scone
+0068   24 OP_CLOSURE         15 <fn topping>
+0070    | OP_METHOD          14 'topping
+0072   25 OP_POP
+0073   27 OP_GET_GLOBAL      13 'Scone
+0075    | OP_CALL             0
+0077    | OP_DEFINE_GLOBAL   16 'scone
+0079   28 OP_GET_GLOBAL      16 'scone
+0081    | OP_CONSTANT        17 'berries
+0083    | OP_CONSTANT        18 'cream
+0085    | OP_INVOKE        (2 args)   14 'topping
+0088    | OP_POP
+0089   30 OP_CLASS           19 'Nested
+0091    | OP_DEFINE_GLOBAL   19 'Nested
+0093    | OP_GET_GLOBAL      19 'Nested
+0095   37 OP_CLOSURE         21 <fn method>
+0097    | OP_METHOD          20 'method
+0099   38 OP_POP
+0100   40 OP_GET_GLOBAL      19 'Nested
+0102    | OP_CALL             0
+0104    | OP_INVOKE        (0 args)   20 'method
+0107    | OP_POP
+0108   42 OP_CLASS           22 'Brunch2
+0110    | OP_DEFINE_GLOBAL   22 'Brunch2
+0112    | OP_GET_GLOBAL      22 'Brunch2
+0114   43 OP_CLOSURE         24 <fn init>
+0116    | OP_METHOD          23 'init
+0118   44 OP_POP
+0119   46 OP_GET_GLOBAL      22 'Brunch2
+0121    | OP_CONSTANT        25 'eggs
+0123    | OP_CONSTANT        26 'coffee
+0125    | OP_CALL             2
+0127    | OP_POP
+0128   48 OP_CLASS           27 'CoffeeMaker
+0130    | OP_DEFINE_GLOBAL   27 'CoffeeMaker
+0132    | OP_GET_GLOBAL      27 'CoffeeMaker
+0134   51 OP_CLOSURE         28 <fn init>
+0136    | OP_METHOD          23 'init
+0138   61 OP_CLOSURE         30 <fn brew>
+0140    | OP_METHOD          29 'brew
+0142   62 OP_POP
+0143   64 OP_GET_GLOBAL      27 'CoffeeMaker
+0145    | OP_CONSTANT        32 'coffee and chicory
+0147    | OP_CALL             1
+0149    | OP_DEFINE_GLOBAL   31 'maker
+0151   65 OP_GET_GLOBAL      31 'maker
+0153    | OP_INVOKE        (0 args)   29 'brew
+0156    | OP_POP
+0157   66 OP_GET_GLOBAL      31 'maker
+0159    | OP_INVOKE        (0 args)   29 'brew
+0162    | OP_POP
+0163   67 OP_NIL
+0164    | OP_RETURN
+Jane
+scone with berries and cream
+Nested instance
+Enjoy your cup of coffee and chicory
+No reusing the grounds!

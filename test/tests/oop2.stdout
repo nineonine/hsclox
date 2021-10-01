@@ -1,18 +1,22 @@
 == <script> ==
 0000    1 OP_CLASS            0 'Brioche
 0002    | OP_DEFINE_GLOBAL    0 'Brioche
-0004    2 OP_GET_GLOBAL       0 'Brioche
-0006    | OP_PRINT
-0007    4 OP_CLASS            1 'Toast
-0009    | OP_DEFINE_GLOBAL    1 'Toast
-0011    5 OP_GET_GLOBAL       1 'Toast
-0013    | OP_CALL             0
-0015    | OP_DEFINE_GLOBAL    2 'toast
-0017    6 OP_GET_GLOBAL       2 'toast
-0019    | OP_CONSTANT         4 'grape
-0021    | OP_SET_PROPERTY     3 'jam
-0023    | OP_PRINT
-0024    7 OP_NIL
-0025    | OP_RETURN
-Brioche
+0004    | OP_GET_GLOBAL       0 'Brioche
+0006    | OP_POP
+0007    2 OP_GET_GLOBAL       0 'Brioche
+0009    | OP_PRINT
+0010    4 OP_CLASS            1 'Toast
+0012    | OP_DEFINE_GLOBAL    1 'Toast
+0014    | OP_GET_GLOBAL       1 'Toast
+0016    | OP_POP
+0017    5 OP_GET_GLOBAL       1 'Toast
+0019    | OP_CALL             0
+0021    | OP_DEFINE_GLOBAL    2 'toast
+0023    6 OP_GET_GLOBAL       2 'toast
+0025    | OP_CONSTANT         4 'grape
+0027    | OP_SET_PROPERTY     3 'jam
+0029    | OP_PRINT
+0030    7 OP_NIL
+0031    | OP_RETURN
+Brioche class
 grape

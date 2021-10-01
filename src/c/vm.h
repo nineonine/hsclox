@@ -23,6 +23,7 @@ typedef struct {
     Value* sp;
     Table globals;
     Table strings;
+    ObjString* initString;
     ObjUpvalue* openUpvalues;
     size_t bytesAllocated;
     size_t nextGC;

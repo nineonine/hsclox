@@ -41,10 +41,12 @@ typedef enum {
     OP_LOOP,
     OP_STACK_DUP_1,
     OP_CALL,
+    OP_INVOKE,
     OP_CLOSURE,
     OP_CLOSE_UPVALUE,
     OP_RETURN,
     OP_CLASS,
+    OP_METHOD,
 } OpCode;
 
 typedef struct {
