@@ -1,0 +1,29 @@
+class Brunch {
+    bacon() {}
+    eggs() {}
+}
+
+var brunch = Brunch();
+var eggs = brunch.eggs;
+
+class Person {
+  sayName() {
+    print this.name;
+  }
+}
+
+var jane = Person();
+jane.name = "Jane";
+
+var m = jane.sayName;
+print 1;
+
+class Nested {
+  method() {
+    fun function() {
+      print this;
+    }
+
+    function();
+  }
+}

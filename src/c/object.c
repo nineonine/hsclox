@@ -82,7 +82,7 @@ ObjNative* newNative(NativeFn function, int arity, ValueType argTypes[]) {
 }
 
 static ObjString* allocateString(char* chars, int length, uint32_t hash) {
-    ObjString* string = ALLOCATE_OBJ_SIZE(ObjString, OBJ_STRING, char, length);
+    ObjString* string = ALLOCATE_OBJ_SIZE(ObjString, OBJ_STRING, char, length+1);
     string->length = length;
     string->hash = hash;
     push(OBJ_VAL(string));

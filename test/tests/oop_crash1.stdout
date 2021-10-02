@@ -1,0 +1,67 @@
+== bacon ==
+0000    2 OP_NIL
+0001    | OP_RETURN
+== eggs ==
+0000    3 OP_NIL
+0001    | OP_RETURN
+== sayName ==
+0000   11 OP_GET_LOCAL        0
+0002    | OP_GET_PROPERTY     0 'name
+0004    | OP_PRINT
+0005   12 OP_NIL
+0006    | OP_RETURN
+== function ==
+0000   24 OP_GET_UPVALUE      0
+0002    | OP_PRINT
+0003   25 OP_NIL
+0004    | OP_RETURN
+== method ==
+0000   25 OP_CLOSURE          0 <fn function>
+0002     |                    local 0
+0004   27 OP_GET_LOCAL        1
+0006    | OP_CALL             0
+0008    | OP_POP
+0009   28 OP_NIL
+0010    | OP_RETURN
+== <script> ==
+0000    1 OP_CLASS            0 'Brunch
+0002    | OP_DEFINE_GLOBAL    0 'Brunch
+0004    | OP_GET_GLOBAL       0 'Brunch
+0006    2 OP_CLOSURE          2 <fn bacon>
+0008    | OP_METHOD           1 'bacon
+0010    3 OP_CLOSURE          4 <fn eggs>
+0012    | OP_METHOD           3 'eggs
+0014    4 OP_POP
+0015    6 OP_GET_GLOBAL       0 'Brunch
+0017    | OP_CALL             0
+0019    | OP_DEFINE_GLOBAL    5 'brunch
+0021    7 OP_GET_GLOBAL       5 'brunch
+0023    | OP_GET_PROPERTY     3 'eggs
+0025    | OP_DEFINE_GLOBAL    3 'eggs
+0027    9 OP_CLASS            6 'Person
+0029    | OP_DEFINE_GLOBAL    6 'Person
+0031    | OP_GET_GLOBAL       6 'Person
+0033   12 OP_CLOSURE          8 <fn sayName>
+0035    | OP_METHOD           7 'sayName
+0037   13 OP_POP
+0038   15 OP_GET_GLOBAL       6 'Person
+0040    | OP_CALL             0
+0042    | OP_DEFINE_GLOBAL    9 'jane
+0044   16 OP_GET_GLOBAL       9 'jane
+0046    | OP_CONSTANT        11 'Jane
+0048    | OP_SET_PROPERTY    10 'name
+0050    | OP_POP
+0051   18 OP_GET_GLOBAL       9 'jane
+0053    | OP_GET_PROPERTY     7 'sayName
+0055    | OP_DEFINE_GLOBAL   12 'm
+0057   19 OP_CONSTANT        13 '1
+0059    | OP_PRINT
+0060   21 OP_CLASS           14 'Nested
+0062    | OP_DEFINE_GLOBAL   14 'Nested
+0064    | OP_GET_GLOBAL      14 'Nested
+0066   28 OP_CLOSURE         16 <fn method>
+0068    | OP_METHOD          15 'method
+0070   29 OP_POP
+0071   30 OP_NIL
+0072    | OP_RETURN
+1
