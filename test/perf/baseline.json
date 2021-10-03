@@ -1,10 +1,18 @@
 {
     "nofib": {
-        "time": 4.11934,
-        "threshold": 0.075
+        "time": 18.355,
+        "threshold": 0.07
     },
     "sumloop": {
-        "time": 4.53367,
-        "threshold": 0.1
+        "time": 9.08497,
+        "threshold": 0.07
+    },
+    "function": {
+        "time": 13.556,
+        "threshold": 0.07
+    },
+    "zoo": {
+        "time": 19.7545,
+        "threshold": 0.07
     }
 }

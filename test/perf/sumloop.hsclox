@@ -8,5 +8,5 @@ fun sum(n) {
     return i;
 }
 
-print sum(50000000);
+print sum(100000000);
 print clock() - start;

@@ -15,7 +15,7 @@ INTERPRETER_BIN = "ihsclox"
 REGRESSION = "regression"
 PERF = "perf"
 STANDARD_TEST_TIMEOUT = 3
-PERF_TEST_TIMEOUT = 10
+PERF_TEST_TIMEOUT = 30
 ALL = "ALL"
 STDOUT_SUFFIX = ".stdout"
 PERF_BASELINE_FILE = os.path.join(PERF_TESTS_LOC, "baseline.json")
@@ -139,14 +139,22 @@ def runPerfTest(interp, test, baselineLookup):
     test_runtime = outcome.splitlines()[-1]
     # lookup baseline metrics for this test
     baseline = baselineLookup[test]
+    print("    baseline: " + str(baseline))
     delta = float(test_runtime) / baseline["time"] - 1
 
     pretty_delta = round(delta * 100, 1)
     if args.verbose:
         if delta < 0:
-            printV("    runtime => " + pprutils.good(str(pretty_delta) + "%"))
+            printV("    runtime => " + pprutils.bold(test_runtime.decode() + "s")
+                                     + " ("
+                                     + pprutils.good(str(pretty_delta) + "%")
+                                     + ")")
         else:
-            printV("    runtime => " + pprutils.warn("+" + str(pretty_delta) + "%"))
+            printV("    runtime => " + pprutils.bold(test_runtime.decode() + "s")
+                                     + " ("
+                                     + pprutils.warn("+" + str(pretty_delta) + "%")
+                                     + ")"
+                                     )
 
     if delta > baseline["threshold"]:
         print(pprutils.uhoh("Performance regression for " + test))

@@ -1,0 +1,21 @@
+var start = clock();
+
+fun add(a, b) {
+    var c = a + b;
+    return c;
+}
+
+fun id(a) {
+    return a;
+}
+
+{
+    var r = 0;
+    var t = 50000000;
+    for (var i = 0; i < t; i = i + 1) {
+        r = add(i, id(t - i));
+    }
+    print r;
+}
+
+print clock() - start;

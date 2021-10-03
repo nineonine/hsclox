@@ -12,7 +12,11 @@
 #include "debug.h"
 #endif
 
-#define PANIC() (abort())
+#define PANIC(msg) \
+    do { \
+        printf("*** PANIC: %s\n", msg); \
+        abort(); \
+    } while (false)
 
 typedef struct {
     Token current;
@@ -227,7 +231,9 @@ static int computeArgsByteSize(const uint8_t* code, int ip) {
         case OP_NEGATE:
         case OP_PRINT:
         case OP_STACK_DUP_1:
+        case OP_CLOSE_UPVALUE:
         case OP_RETURN:
+        case OP_INHERIT:
             return 0;
 
         case OP_CONSTANT:
@@ -235,18 +241,31 @@ static int computeArgsByteSize(const uint8_t* code, int ip) {
         case OP_POPN:
         case OP_SET_LOCAL:
         case OP_GET_LOCAL:
+        case OP_SET_UPVALUE:
+        case OP_GET_UPVALUE:
+        case OP_GET_PROPERTY:
+        case OP_SET_PROPERTY:
+        case OP_GET_EXPR_PROPERTY:
+        case OP_SET_EXPR_PROPERTY:
+        case OP_CALL:
+        case OP_GET_SUPER:
         case OP_GET_GLOBAL:
         case OP_DEFINE_GLOBAL:
         case OP_SET_GLOBAL:
+        case OP_CLOSURE:
+        case OP_CLASS:
+        case OP_METHOD:
             return 1;
 
         case OP_JUMP:
         case OP_JUMP_IF_FALSE:
         case OP_JUMP_BREAK:
         case OP_LOOP:
+        case OP_INVOKE:
+        case OP_SUPER_INVOKE:
             return 2;
     }
-    PANIC();
+    PANIC("computeArgsByteSize");
     return -1;
 }
 
