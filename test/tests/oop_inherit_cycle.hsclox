@@ -1,0 +1,3 @@
+class Doughnut < Doughnut {
+    cook() { print "Dunk in the fryer."; }
+}

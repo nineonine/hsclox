@@ -1,0 +1,39 @@
+== method ==
+0000    2 OP_CONSTANT         0 'A
+0002    | OP_PRINT
+0003    | OP_NIL
+0004    | OP_RETURN
+== method ==
+0000    7 OP_GET_LOCAL        0
+0002    | OP_GET_UPVALUE      0
+0004    | OP_GET_SUPER        0 'method
+0006    8 OP_GET_LOCAL        1
+0008    | OP_CALL             0
+0010    | OP_POP
+0011    9 OP_NIL
+0012    | OP_RETURN
+== <script> ==
+0000    1 OP_CLASS            0 'A
+0002    | OP_DEFINE_GLOBAL    0 'A
+0004    | OP_GET_GLOBAL       0 'A
+0006    2 OP_CLOSURE          2 <fn method>
+0008    | OP_METHOD           1 'method
+0010    3 OP_POP
+0011    5 OP_CLASS            3 'B
+0013    | OP_DEFINE_GLOBAL    3 'B
+0015    | OP_GET_GLOBAL       0 'A
+0017    | OP_GET_GLOBAL       3 'B
+0019    | OP_INHERIT
+0020    | OP_GET_GLOBAL       3 'B
+0022    9 OP_CLOSURE          4 <fn method>
+0024     |                    local 1
+0026    | OP_METHOD           1 'method
+0028   10 OP_POP
+0029    | OP_CLOSE_UPVALUE
+0030   12 OP_GET_GLOBAL       3 'B
+0032    | OP_CALL             0
+0034    | OP_INVOKE        (0 args)    1 'method
+0037    | OP_POP
+0038   13 OP_NIL
+0039    | OP_RETURN
+A

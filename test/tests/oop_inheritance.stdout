@@ -1,0 +1,29 @@
+== cook ==
+0000    2 OP_CONSTANT         0 'Dunk in the fryer.
+0002    | OP_PRINT
+0003    | OP_NIL
+0004    | OP_RETURN
+== finish ==
+0000    6 OP_CONSTANT         0 'Glaze with icing.
+0002    | OP_PRINT
+0003    | OP_NIL
+0004    | OP_RETURN
+== <script> ==
+0000    1 OP_CLASS            0 'Doughnut
+0002    | OP_DEFINE_GLOBAL    0 'Doughnut
+0004    | OP_GET_GLOBAL       0 'Doughnut
+0006    2 OP_CLOSURE          2 <fn cook>
+0008    | OP_METHOD           1 'cook
+0010    3 OP_POP
+0011    5 OP_CLASS            3 'Cruller
+0013    | OP_DEFINE_GLOBAL    3 'Cruller
+0015    | OP_GET_GLOBAL       0 'Doughnut
+0017    | OP_GET_GLOBAL       3 'Cruller
+0019    | OP_INHERIT
+0020    | OP_GET_GLOBAL       3 'Cruller
+0022    6 OP_CLOSURE          5 <fn finish>
+0024    | OP_METHOD           4 'finish
+0026    7 OP_POP
+0027    | OP_POP
+0028    8 OP_NIL
+0029    | OP_RETURN
