@@ -1,6 +1,6 @@
 {
     "nofib": {
-        "time": 18.355,
+        "time": 16.6803,
         "threshold": 0.07
     },
     "sumloop": {
@@ -12,7 +12,7 @@
         "threshold": 0.07
     },
     "zoo": {
-        "time": 19.7545,
+        "time": 14.9836,
         "threshold": 0.07
     }
 }
