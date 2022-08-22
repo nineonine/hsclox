@@ -1,5 +1,5 @@
 GHC = ghc
-GHC_PKG = ghc-pkg
+GHC_PKG = $(shell dirname $(shell which $(GHC)))/ghc-pkg
 CC = cc
 
 C_SRC_DIR := src/c
