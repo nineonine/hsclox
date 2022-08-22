@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "HsFFI.h"
 #include "Compiler_stub.h"
+#include "hscompiler.h"
 
 void hsCompilerInit(void)
 {
