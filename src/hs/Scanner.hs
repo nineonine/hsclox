@@ -184,7 +184,7 @@ string = do
 scanToken :: ScannerT Token
 scanToken = do
     skipWhiteSpace
-    modify' $ \s@Scanner{..} -> s{start = current} :: Scanner
+    modify' $ \s@Scanner{..} -> (s{start = current} :: Scanner)
     ifM isAtEnd
         (makeToken TOKEN_EOF)
         (do c <- advance

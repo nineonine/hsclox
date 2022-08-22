@@ -1,3 +1,5 @@
+{-# LANGUAGE CPP                      #-}
+{-# LANGUAGE ForeignFunctionInterface #-}
 module Compiler where
 
 import Control.Monad.Trans.State.Strict
@@ -7,6 +9,11 @@ import Obj
 import Token
 
 -- The bytecode compiler / assembler
+
+foreign export ccall compileFromHs :: IO ()
+
+compileFromHs :: IO ()
+compileFromHs = print "compiling in hs ..."
 
 data SessionState = SessionState {
     parser   :: !Parser
@@ -68,7 +75,7 @@ data Loop = Loop {
   , enclosing  :: !Loop
 }
 
-type Globals = Map String Value
+type Globals = Map String () -- Value
 
 data Compiler = Compiler {
     enclosing :: Compiler

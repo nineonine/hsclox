@@ -6,7 +6,7 @@ data ObjFunction = ObjFunction {
     obj :: Obj
   , arity :: Int
   , upvalueCount :: Int
-  , chunk :: Chunk
+--   , chunk :: Chunk
   , name  :: ObjString
 }
 
@@ -32,3 +32,11 @@ data ObjType
     | OBJ_NATIVE
     | OBJ_STRING
     | OBJ_UPVALUE
+
+-- data Chunk = Chunk {
+--     count :: Int
+--   , code  :: ByteString
+--   , lines :: Int
+--   , linesCount :: Int
+--   б constants :: ValueArray
+-- }

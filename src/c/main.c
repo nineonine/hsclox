@@ -2,6 +2,12 @@
 #include <stdio.h>
 #include <string.h>
 
+// Include Haskell FFI file, which we will use to initialize a Haskell runtime
+#include "HsFFI.h"
+/* #ifdef __GLASGOW_HASKELL__ */
+#include "Compiler_stub.h"
+/* #endif */
+
 #include "common.h"
 #include "chunk.h"
 #include "debug.h"
@@ -64,7 +70,14 @@ static void runFile(const char* path) {
     if (result == INTERPRET_RUNTIME_ERROR) exit(70);
 }
 
-int main(int argc, const char* argv[]) {
+int main(int argc, char* argv[]) {
+
+    // Initialize Haskell Runtime _before_ any calls to the Haskell code
+    // and then make a call to Haskell code
+    // hsCompilerInit();
+    // compile();
+    // hsCompilerExit();
+
     initVM();
 
     if (argc == 1) {
