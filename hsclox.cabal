@@ -22,7 +22,7 @@ source-repository head
 foreign-library hsclox-ffi
   type:               native-shared
   hs-source-dirs:     src/hs
-  cc-options:         -Wall -g
+  cc-options:         -Wall
   ghc-options:        -Wall
   default-language:   Haskell2010
 
@@ -33,7 +33,7 @@ foreign-library hsclox-ffi
                     , Scanner
                     , Token
                     , Utils
-  build-depends:      base >=4.15 && <4.17
+  build-depends:      base
                     , containers
                     , bytestring
                     , text
