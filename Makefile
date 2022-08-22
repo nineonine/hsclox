@@ -19,6 +19,7 @@ ifeq ($(DEBUG), 1) # DEBUGGING EXECUTION
 else ifeq ($(DEBUG), 2) # DEBUGGING GC
 	CPPFLAGS += -DDEBUG_LOG_GC -DDEBUG_STRESS_GC
 endif
+LD_OPTS := -optl-Wl,-rpath,src/c
 
 .PHONY: clean run test help
 .DEFAULT_GOAL := build
@@ -26,21 +27,19 @@ endif
 clean:	## clean up build artifacts
 	cabal clean
 	find . -perm +100 -type f -delete
-	rm -f src/c/hscompiler.*
 	rm -f src/c/Compiler_Stub.h
 	rm -f $(EXE)
-	rm -f *.so
-	rm -f *.o
+	rm -f $(OBJS)
 	rm -rf *.dSYM/
 
-$(C_SRC_DIR)/libhsclox-ffi.so:	## build interpeter
+$(C_SRC_DIR)/libhsclox-ffi.dylib:	## build interpeter
 	cabal build
 	find dist-newstyle/ -name 'hscompiler.*' -exec cp {} $(C_SRC_DIR) \;
-	find dist-newstyle/ -name 'libhsclox-ffi.so' -exec cp {} $(C_SRC_DIR) \;
+	find dist-newstyle/ -name 'libhsclox-ffi.dylib' -exec cp {} $(C_SRC_DIR) \;
 	find dist-newstyle/ -name 'Compiler_stub.h' -exec cp {} $(C_SRC_DIR) \;
 
-build: $(C_SRC_DIR)/libhsclox-ffi.so $(OBJS)
-	$(GHC) -no-hs-main $(CFLAGS) $(CPPFLAGS) -o $(EXE) -lhsclox-ffi -L$(C_SRC_DIR) $(OBJS)
+build: $(C_SRC_DIR)/libhsclox-ffi.dylib $(OBJS)
+	$(GHC) -no-hs-main $(CFLAGS) $(CPPFLAGS) -o $(EXE) -L./$(C_SRC_DIR) $(LD_OPTS) -lhsclox-ffi $(OBJS)
 
 run:	## run interpreter
 	@./$(EXE) $(SRC)

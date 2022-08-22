@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "HsFFI.h"
 #include "Compiler_stub.h"
 #include "hscompiler.h"

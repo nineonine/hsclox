@@ -4,9 +4,7 @@
 
 // Include Haskell FFI file, which we will use to initialize a Haskell runtime
 #include "HsFFI.h"
-/* #ifdef __GLASGOW_HASKELL__ */
-#include "Compiler_stub.h"
-/* #endif */
+#include "hscompiler.h"
 
 #include "common.h"
 #include "chunk.h"
@@ -73,10 +71,9 @@ static void runFile(const char* path) {
 int main(int argc, char* argv[]) {
 
     // Initialize Haskell Runtime _before_ any calls to the Haskell code
-    // and then make a call to Haskell code
-    // hsCompilerInit();
-    // hscompile();
-    // hsCompilerExit();
+    hsCompilerInit();
+    hscompile();
+    hsCompilerExit();
 
     initVM();
 

@@ -2,4 +2,4 @@
 
 void hsCompilerInit(void);
 void hsCompilerExit(void);
-void compile(void);
+void hscompile(void);

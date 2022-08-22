@@ -637,7 +637,7 @@ static InterpretResult run() {
 }
 
 InterpretResult interpret(const char* source) {
-    ObjFunction* function = hsCompile(source);
+    ObjFunction* function = compile(source);
     if (function == NULL) return INTERPRET_COMPILE_ERROR;
     push(OBJ_VAL(function));
     ObjClosure* closure = newClosure(function);
