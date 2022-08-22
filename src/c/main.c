@@ -75,7 +75,7 @@ int main(int argc, char* argv[]) {
     // Initialize Haskell Runtime _before_ any calls to the Haskell code
     // and then make a call to Haskell code
     // hsCompilerInit();
-    // compile();
+    // hscompile();
     // hsCompilerExit();
 
     initVM();

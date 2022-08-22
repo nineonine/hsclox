@@ -17,7 +17,7 @@ void hsCompilerExit(void)
     hs_exit();
 }
 
-void compile(void)
+void hscompile(void)
 {
-    compileFromHs();
+    compileFromHs(); // haskell function (Compiler.hs)
 }
