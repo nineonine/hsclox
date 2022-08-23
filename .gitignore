@@ -26,6 +26,8 @@ cabal.project.local~
 .HTF/
 .ghc.environment.*
 
+src/c/Compiler_stub.h
+
 # ----- C -----
 # Prerequisites
 *.d

@@ -33,7 +33,7 @@ data TokenType
 data Token = Token {
     src       :: !ByteString
   , tokenType :: !TokenType
-  , start     :: !Int64
+  , tokstart  :: !Int64
   , len       :: !Int64
   , loc       :: !Int64 -- ^ Line of code
 } deriving Show
