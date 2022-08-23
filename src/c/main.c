@@ -3,7 +3,6 @@
 #include <string.h>
 
 // Include Haskell FFI file, which we will use to initialize a Haskell runtime
-#include "HsFFI.h"
 #include "hscompiler.h"
 
 #include "common.h"

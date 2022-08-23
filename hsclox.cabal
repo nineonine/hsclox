@@ -26,7 +26,7 @@ foreign-library hsclox-ffi
   ghc-options:        -Wall
   default-language:   Haskell2010
 
-  C-sources:          src/c/hscompiler.c
+  C-sources:          src/hs/hscompiler.c
   other-modules:      Compiler
                     , Obj
                     , OpCode
