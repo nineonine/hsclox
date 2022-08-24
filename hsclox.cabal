@@ -28,7 +28,7 @@ foreign-library hsclox-ffi
 
   C-sources:          src/hs/ffi/hscompiler.c
   other-modules:      Compiler
-                    , Obj
+                    , Object
                     , OpCode
                     , Parser
                     , Scanner
@@ -42,3 +42,4 @@ foreign-library hsclox-ffi
                     , transformers
 
   default-extensions:  DuplicateRecordFields
+                     , RecordWildCards

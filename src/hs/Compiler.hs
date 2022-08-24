@@ -6,8 +6,9 @@ import Data.Int
 import Control.Monad.Trans.State.Strict
 import Data.Map.Strict
 
-import Obj
+import Object
 import Parser
+import Token
 
 -- The bytecode compiler / assembler
 
@@ -16,13 +17,13 @@ foreign export ccall compileFromHs :: IO ()
 compileFromHs :: IO ()
 compileFromHs = print "compiling in hs ..."
 
+type CompilerT = StateT CompilerState IO
+
 data CompilerState = CompilerState {
     parser       :: !Parser
   , current      :: !Compiler
   , currentClass :: !ClassCompiler
 }
-
-type CompilerT = StateT CompilerState IO
 
 type ParseFn = Bool -> CompilerT ()
 
@@ -42,3 +43,20 @@ data ClassCompiler = ClassCompiler {
     hasSuperClass :: !Bool
   , enclosing     :: !ClassCompiler
 }
+
+currentChunk :: CompilerT Chunk
+currentChunk  = do
+    CompilerState{..} <- get
+    return (chunk (function current))
+
+errotAt :: Token -> String -> CompilerT ()
+errotAt token msg = return ()
+
+error :: String -> CompilerT ()
+error msg = return ()
+
+errorAtCurrent :: String -> CompilerT ()
+errorAtCurrent msg = return ()
+
+advance :: CompilerT ()
+advance = return ()

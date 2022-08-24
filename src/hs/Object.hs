@@ -1,12 +1,13 @@
-module Obj where
+module Object where
 
 import Data.ByteString.Lazy
+import Data.Int
 
 data ObjFunction = ObjFunction {
     obj :: Obj
   , arity :: Int
   , upvalueCount :: Int
---   , chunk :: Chunk
+  , chunk :: Chunk
   , name  :: ObjString
 }
 
@@ -20,7 +21,7 @@ data ObjString = ObjString {
 data Obj = Obj {
     objType :: ObjType
   , isMarked :: Bool
-  , next :: Obj
+  , next :: Maybe Obj
 }
 
 data ObjType
@@ -33,10 +34,11 @@ data ObjType
     | OBJ_STRING
     | OBJ_UPVALUE
 
+data Chunk = Chunk Int64
 -- data Chunk = Chunk {
 --     count :: Int
 --   , code  :: ByteString
 --   , lines :: Int
 --   , linesCount :: Int
---   б constants :: ValueArray
+--   , constants :: ValueArray
 -- }

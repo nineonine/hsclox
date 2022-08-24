@@ -5,10 +5,10 @@ import Data.Int
 import Token
 
 data Parser = Parser {
-    current   :: !Token
-  , previous  :: !Token
-  , hadError  :: !Bool
-  , panicMode :: !Bool
+    currentTok   :: !Token
+  , previousTok  :: !Token
+  , hadError     :: !Bool
+  , panicMode    :: !Bool
 }
 
 data Precedence
