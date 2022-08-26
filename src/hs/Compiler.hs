@@ -144,8 +144,12 @@ advance = do
             errorAtCurrent tokStr
           _else -> go_advance
 
-consume :: TokenType -> Text -> CompilerT ()
-consume tokenType msg = return ()
+consume :: TokenType -> ByteString -> CompilerT ()
+consume tokenType msg = do
+    parser <- getParser
+    if parser.currentTok.tokenType == tokenType
+    then advance
+    else errorAtCurrent msg
 
 check :: TokenType -> CompilerT Bool
 check tokenType = return False

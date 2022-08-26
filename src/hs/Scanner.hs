@@ -4,7 +4,11 @@
 {-# LANGUAGE NamedFieldPuns    #-}
 {-# LANGUAGE RecordWildCards   #-}
 {-# LANGUAGE LambdaCase        #-}
-module Scanner where
+module Scanner (
+      Scanner(..)
+    , ScannerT
+    , scanToken
+    ) where
 
 import Control.Monad (void)
 import Control.Monad.Trans.State.Strict
