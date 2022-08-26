@@ -5,9 +5,12 @@ module Compiler where
 import Data.Int
 import Data.Word
 import Control.Monad.Trans.State.Strict
+import Control.Monad.IO.Class (liftIO)
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import Data.Text
+import System.IO (stderr, hPutStr)
+import Text.Printf
 
 import Object
 import OpCode
@@ -25,11 +28,26 @@ compileFromHs = print "compiling in hs ..."
 
 type CompilerT = StateT CompilerState IO
 
-data CompilerState = CompilerState {
+data CompilerState = CS {
     parser       :: !Parser
   , current      :: !Compiler
   , currentClass :: !ClassCompiler
 }
+
+getParser :: CompilerT Parser
+getParser = do
+    CS{..} <- get
+    return parser
+
+getCurrent :: CompilerT Compiler
+getCurrent = do
+    CS{..} <- get
+    return current
+
+getCurrentClass :: CompilerT ClassCompiler
+getCurrentClass = do
+    CS{..} <- get
+    return currentClass
 
 type ParseFn = Bool -> CompilerT ()
 
@@ -54,22 +72,37 @@ data CanAssign = CanAssign | CanNotAssign
 
 currentChunk :: CompilerT Chunk
 currentChunk  = do
-    CompilerState{..} <- get
+    CS{..} <- get
     return (chunk (objFunction current))
 
-errotAt :: Token -> String -> CompilerT ()
-errotAt token msg = return ()
+errorAt :: Token -> Text -> CompilerT ()
+errorAt Token{..} message = do
+    ifM (panicMode <$> getParser)
+        (return ())
+        (do modify' (\st@CS{..} ->
+                st { parser = parser { panicMode = True}})
+            let msg = printf "[line %d] Error" loc
+            liftIO (hPutStr stderr msg)
+            case tokenType of
+              TOKEN_EOF -> liftIO (hPutStr stderr " at end")
+              TOKEN_ERROR -> return () -- nothing
+              _otherwise ->
+                let msg = printf " at '%.*s'" len tokstart
+                in liftIO (hPutStr stderr msg)
+            liftIO (hPutStr stderr (printf ": %s\n" message))
+            modify' (\st@CS{..} ->
+                st { parser = parser { hadError = True }}))
 
-error :: String -> CompilerT ()
+error :: Text -> CompilerT ()
 error msg = return ()
 
-errorAtCurrent :: String -> CompilerT ()
+errorAtCurrent :: Text -> CompilerT ()
 errorAtCurrent msg = return ()
 
 advance :: CompilerT ()
 advance = return ()
 
-consume :: TokenType -> String -> CompilerT ()
+consume :: TokenType -> Text -> CompilerT ()
 consume tokenType msg = return ()
 
 check :: TokenType -> CompilerT Bool
