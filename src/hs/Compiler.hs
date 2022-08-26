@@ -3,12 +3,15 @@
 module Compiler where
 
 import Data.Int
+import Data.Word
 import Control.Monad.Trans.State.Strict
 import Data.Map.Strict
 
 import Object
+import OpCode
 import Parser
 import Token
+import Value
 
 -- The bytecode compiler / assembler
 
@@ -60,3 +63,35 @@ errorAtCurrent msg = return ()
 
 advance :: CompilerT ()
 advance = return ()
+
+consume :: TokenType -> String -> CompilerT ()
+consume tokenType msg = return ()
+
+check :: TokenType -> CompilerT Bool
+check tokenType = return False
+
+match :: TokenType -> CompilerT ()
+match tokenType = return ()
+
+emitByte :: Word8 -> CompilerT ()
+emitByte byte = return ()
+
+emitBytes :: Word8 -> Word8 -> CompilerT ()
+emitBytes byte1 byte2 = return ()
+
+emitLoop :: Int -> CompilerT ()
+emitLoop loopStart = return ()
+
+emitJump :: Word8 -> CompilerT Int
+emitJump  instruction = return 1
+
+emitReturn :: CompilerT ()
+emitReturn = return ()
+
+makeConstant :: Value -> CompilerT Word8
+makeConstant value = return 1
+
+emitConstant :: Value -> CompilerT ()
+emitConstant value = do
+  c <- makeConstant value
+  emitBytes (toBytes OP_CONSTANT) c

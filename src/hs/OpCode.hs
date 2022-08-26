@@ -1,6 +1,8 @@
 module OpCode where
 
-data Op
+import Data.Word
+
+data OpCode
     = OP_CONSTANT
     | OP_NIL
     | OP_TRUE
@@ -44,4 +46,7 @@ data Op
     | OP_CLASS
     | OP_INHERIT
     | OP_METHOD
-    deriving (Eq, Show)
+    deriving (Eq, Show, Enum)
+
+toBytes :: OpCode -> Word8
+toBytes = fromIntegral . fromEnum
