@@ -152,10 +152,15 @@ consume tokenType msg = do
     else errorAtCurrent msg
 
 check :: TokenType -> CompilerT Bool
-check tokenType = return False
+check tokenType = do
+    parser <- getParser
+    return (parser.currentTok.tokenType == tokenType)
 
-match :: TokenType -> CompilerT ()
-match tokenType = return ()
+match :: TokenType -> CompilerT Bool
+match tokenType = do
+    ifM (check tokenType)
+        (return False)
+        (advance >> return True)
 
 emitByte :: Word8 -> CompilerT ()
 emitByte byte = return ()
