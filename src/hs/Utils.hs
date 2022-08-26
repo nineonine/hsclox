@@ -26,5 +26,8 @@ slice :: ByteString -> Int64 -> Int64 -> ByteString
 slice bs start end = toLazyByteString $
     mconcat $ map (\i -> word8Dec (LBS.index bs i)) [start..end]
 
+substr :: ByteString -> Int64 -> Int64 -> ByteString
+substr bs start len = slice bs start (start + len)
+
 panic :: String -> a
 panic = error

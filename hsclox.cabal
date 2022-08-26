@@ -44,4 +44,5 @@ foreign-library hsclox-ffi
 
   default-extensions:  DuplicateRecordFields
                      , RecordWildCards
-                     , OverloadedRecordDot
+                     , ScopedTypeVariables
+                     , OverloadedStrings

@@ -1,10 +1,9 @@
-{-# LANGUAGE DoAndIfThenElse #-}
+{-# LANGUAGE DoAndIfThenElse   #-}
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE MultiWayIf #-}
-{-# LANGUAGE NamedFieldPuns #-}
-{-# LANGUAGE RecordWildCards #-}
-{-# LANGUAGE DuplicateRecordFields #-}
-{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE MultiWayIf        #-}
+{-# LANGUAGE NamedFieldPuns    #-}
+{-# LANGUAGE RecordWildCards   #-}
+{-# LANGUAGE LambdaCase        #-}
 module Scanner where
 
 import Control.Monad (void)

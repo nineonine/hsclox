@@ -1,20 +1,24 @@
 {-# LANGUAGE CPP                      #-}
 {-# LANGUAGE ForeignFunctionInterface #-}
+{-# LANGUAGE OverloadedRecordDot      #-}
 module Compiler where
 
-import Data.Int
-import Data.Word
 import Control.Monad.Trans.State.Strict
 import Control.Monad.IO.Class (liftIO)
+import Data.ByteString.Lazy hiding (hPutStr)
+import qualified Data.ByteString.Lazy.Char8 as LBS8
+import Data.Int
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
-import Data.Text
+import Data.Text hiding (unpack)
+import Data.Word
 import System.IO (stderr, hPutStr)
 import Text.Printf
 
 import Object
 import OpCode
 import Parser
+import Scanner
 import Token
 import Utils
 import Value
@@ -29,10 +33,16 @@ compileFromHs = print "compiling in hs ..."
 type CompilerT = StateT CompilerState IO
 
 data CompilerState = CS {
-    parser       :: !Parser
+    scanner      :: !Scanner
+  , parser       :: !Parser
   , current      :: !Compiler
   , currentClass :: !ClassCompiler
 }
+
+getScanner :: CompilerT Scanner
+getScanner = do
+    CS{..} <- get
+    return scanner
 
 getParser :: CompilerT Parser
 getParser = do
@@ -48,6 +58,13 @@ getCurrentClass :: CompilerT ClassCompiler
 getCurrentClass = do
     CS{..} <- get
     return currentClass
+
+runScanner :: ScannerT a -> CompilerT a
+runScanner scanAction = do
+    scanner <- getScanner
+    (res, scanner') <- liftIO (runStateT scanAction scanner)
+    modify' (\st -> st { scanner = scanner'})
+    return res
 
 type ParseFn = Bool -> CompilerT ()
 
@@ -75,7 +92,7 @@ currentChunk  = do
     CS{..} <- get
     return current.objFunction.chunk
 
-errorAt :: Token -> Text -> CompilerT ()
+errorAt :: Token -> ByteString -> CompilerT ()
 errorAt Token{..} message = do
     ifM (panicMode <$> getParser)
         (return ())
@@ -89,23 +106,43 @@ errorAt Token{..} message = do
               _otherwise ->
                 let msg1 = printf " at '%.*s'" len tokstart
                 in liftIO (hPutStr stderr msg1)
-            liftIO (hPutStr stderr (printf ": %s\n" message))
+            liftIO (hPutStr stderr (printf ": %s\n" (LBS8.unpack message)))
             modify' (\st@CS{..} ->
                 st { parser = parser { hadError = True }}))
 
-error :: Text -> CompilerT ()
+error :: ByteString -> CompilerT ()
 error msg = do
     parser <- getParser
     errorAt parser.previousTok msg
 
 
-errorAtCurrent :: Text -> CompilerT ()
+errorAtCurrent :: ByteString -> CompilerT ()
 errorAtCurrent msg = do
     parser <- getParser
     errorAt parser.currentTok msg
 
 advance :: CompilerT ()
-advance = return ()
+advance = do
+    modify' $ \cs -> cs {
+      parser = cs.parser {
+        previousTok = cs.parser.currentTok
+    }}
+    go_advance where
+      go_advance = do
+        t <- runScanner scanToken
+        modify' $ \cs -> cs {
+          parser = cs.parser {
+            currentTok = t
+        }}
+        parser :: Parser <- getParser
+        scanner :: Scanner <- getScanner
+        case parser.previousTok.tokenType of
+          TOKEN_ERROR -> do
+            let tokStr = substr scanner.stream
+                                parser.previousTok.tokstart
+                                parser.previousTok.len
+            errorAtCurrent tokStr
+          _else -> go_advance
 
 consume :: TokenType -> Text -> CompilerT ()
 consume tokenType msg = return ()
@@ -173,7 +210,7 @@ resolveLocal :: Compiler -> Token -> CompilerT Int
 resolveLocal compiler name = return 1
 
 addUpvalue :: Compiler -> Word8 -> Bool -> CompilerT ()
-addUpvalue compiler index isLocal = return ()
+addUpvalue compiler idx isLocal = return ()
 
 resolveUpvalue :: Compiler -> Token -> CompilerT Int
 resolveUpvalue compiler name = return 0

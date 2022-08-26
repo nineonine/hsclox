@@ -1,7 +1,5 @@
 module Value where
 
-import Object
-
 data ValueType
     = VAL_BOOL
     | VAL_NIL
