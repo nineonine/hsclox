@@ -28,7 +28,7 @@ data TokenType
     | TOKEN_BREAK | TOKEN_CONTINUE
 
     | TOKEN_ERROR | TOKEN_EOF
-    deriving Show
+    deriving (Show, Eq, Ord)
 
 data Token = Token {
     src       :: !ByteString
@@ -36,4 +36,4 @@ data Token = Token {
   , tokstart  :: !Int64
   , len       :: !Int64
   , loc       :: !Int64 -- ^ Line of code
-} deriving Show
+} deriving (Show, Eq, Ord)

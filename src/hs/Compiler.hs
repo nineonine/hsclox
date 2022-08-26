@@ -5,12 +5,15 @@ module Compiler where
 import Data.Int
 import Data.Word
 import Control.Monad.Trans.State.Strict
-import Data.Map.Strict
+import Data.Map.Strict (Map)
+import qualified Data.Map.Strict as Map
+import Data.Text
 
 import Object
 import OpCode
 import Parser
 import Token
+import Utils
 import Value
 
 -- The bytecode compiler / assembler
@@ -34,7 +37,7 @@ type Globals = Map String () -- Value
 
 data Compiler = Compiler {
     enclosing :: Compiler
-  , function :: ObjFunction
+  , objFunction :: ObjFunction
   , funType  :: FunctionType
   , locals :: [Local]
   , globals :: Globals
@@ -47,10 +50,12 @@ data ClassCompiler = ClassCompiler {
   , enclosing     :: !ClassCompiler
 }
 
+data CanAssign = CanAssign | CanNotAssign
+
 currentChunk :: CompilerT Chunk
 currentChunk  = do
     CompilerState{..} <- get
-    return (chunk (function current))
+    return (chunk (objFunction current))
 
 errotAt :: Token -> String -> CompilerT ()
 errotAt token msg = return ()
@@ -95,3 +100,199 @@ emitConstant :: Value -> CompilerT ()
 emitConstant value = do
   c <- makeConstant value
   emitBytes (toBytes OP_CONSTANT) c
+
+patchJump :: Int -> CompilerT ()
+patchJump offset = return ()
+
+computeArgsByteSize :: Word8 -> Int -> CompilerT Int
+computeArgsByteSize code ip = return 0
+
+startLoop :: Loop -> CompilerT ()
+startLoop loop = return ()
+
+endLoop :: CompilerT ()
+endLoop = return ()
+
+initCompiler :: Compiler -> FunctionType -> CompilerT ()
+initCompiler compiler funType = return ()
+
+endCompiler :: CompilerT ObjFunction
+endCompiler = panic "endCompiler"
+
+beginScope :: CompilerT ()
+beginScope = return ()
+
+endScope :: CompilerT ()
+endScope = return ()
+
+identifierConstant :: Token -> CompilerT Word8
+identifierConstant name = return 1
+
+identifiersEqual :: Token -> Token -> CompilerT Bool
+identifiersEqual a b = return False
+
+resolveLocal :: Compiler -> Token -> CompilerT Int
+resolveLocal compiler name = return 1
+
+addUpvalue :: Compiler -> Word8 -> Bool -> CompilerT ()
+addUpvalue compiler index isLocal = return ()
+
+resolveUpvalue :: Compiler -> Token -> CompilerT Int
+resolveUpvalue compiler name = return 0
+
+addLocal :: Token -> Bool -> CompilerT ()
+addLocal name isConst = return ()
+
+discardLocals :: Compiler -> CompilerT Int
+discardLocals current = return 0
+
+declareVariable :: Bool -> CompilerT ()
+declareVariable isConst = return ()
+
+grouping :: CanAssign -> CompilerT ()
+grouping canAssign = return ()
+
+number :: CanAssign -> CompilerT ()
+number canAssign = return ()
+
+or_ :: CanAssign -> CompilerT ()
+or_ canAssign = return ()
+
+string :: CanAssign -> CompilerT ()
+string canAssign = return ()
+
+isNotConstVar :: Compiler -> Token -> Int -> CompilerT ()
+isNotConstVar compiler name i = return ()
+
+namedVariable :: Token -> CanAssign -> CompilerT ()
+namedVariable name canAssign = return ()
+
+variable :: CanAssign -> CompilerT ()
+variable  canAssign = return ()
+
+syntheticToken :: Text -> Token
+syntheticToken = panic "syntheticToken"
+
+argumentList :: CompilerT Word8
+argumentList = return 1
+
+super :: CanAssign -> CompilerT ()
+super canAssign = return ()
+
+this :: CanAssign -> CompilerT ()
+this canAssign = return ()
+
+unary :: CanAssign -> CompilerT ()
+unary canAssign = return ()
+
+extendGlobals :: ObjString -> Bool -> CompilerT ()
+extendGlobals key isConst = return ()
+
+parseVariable :: Text -> CompilerT Word8
+parseVariable errorMessage = return 0
+
+markInitialized :: CompilerT ()
+markInitialized = return ()
+
+defineVariable :: Word8 -> CompilerT ()
+defineVariable global = return ()
+
+and :: CanAssign -> CompilerT ()
+and canAssign = return ()
+
+binary :: CanAssign -> CompilerT ()
+binary canAssign = return ()
+
+call :: CanAssign -> CompilerT ()
+call canAssign = return ()
+
+field :: CanAssign -> CompilerT ()
+field canAssign = return ()
+
+dot :: CanAssign -> CompilerT ()
+dot canAssign = return ()
+
+literal :: CanAssign -> CompilerT ()
+literal canAssign = return ()
+
+data ParseRule = ParseRule {
+    parsingFn :: Maybe (CanAssign -> CompilerT ())
+  , parseOpFn :: Maybe (CanAssign -> CompilerT ())
+  , precedence :: Precedence
+}
+
+rules :: Map TokenType ParseRule
+rules = Map.empty
+
+parsePrecedence :: Precedence -> CompilerT ()
+parsePrecedence precedence = return ()
+
+getRule :: TokenType -> Maybe ParseRule
+getRule tokenType = Map.lookup tokenType rules
+
+expression :: CompilerT ()
+expression = return ()
+
+block :: CompilerT ()
+block = return ()
+
+function :: FunctionType -> CompilerT ()
+function functionType = return ()
+
+method :: CompilerT ()
+method = return ()
+
+classDeclaration :: CompilerT ()
+classDeclaration = return ()
+
+funDeclaration :: CompilerT ()
+funDeclaration = return ()
+
+expressionStatement :: CompilerT ()
+expressionStatement = return ()
+
+forStatement :: CompilerT ()
+forStatement = return ()
+
+ifStatement :: CompilerT ()
+ifStatement = return ()
+
+switchCase :: CompilerT Int
+switchCase = return 1
+
+defaultCase :: CompilerT ()
+defaultCase = return ()
+
+switchStatement :: CompilerT ()
+switchStatement = return ()
+
+printStatement :: CompilerT ()
+printStatement = return ()
+
+returnStatement :: CompilerT ()
+returnStatement = return ()
+
+breakStatement :: CompilerT ()
+breakStatement = return ()
+
+continueStatement :: CompilerT ()
+continueStatement = return ()
+
+whileStatement :: CompilerT ()
+whileStatement = return ()
+
+synchronize :: CompilerT ()
+synchronize = return ()
+
+declaration :: CompilerT ()
+declaration = return ()
+
+statement :: CompilerT ()
+statement = return ()
+
+-- FFI export ...
+compile :: Text -> ObjFunction
+compile source = panic "compile"
+
+markCompilerRoots :: CompilerT ()
+markCompilerRoots = return ()

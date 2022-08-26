@@ -1,10 +1,10 @@
 module Utils where
 
 import Prelude
-import Data.Int
 import qualified Data.ByteString.Lazy as LBS
 import Data.ByteString.Lazy (ByteString)
 import Data.ByteString.Builder
+import Data.Int
 
 whileM :: Monad m => m Bool -> m () -> m ()
 whileM cond dothis = do
@@ -25,3 +25,6 @@ whenM cond thenM = do
 slice :: ByteString -> Int64 -> Int64 -> ByteString
 slice bs start end = toLazyByteString $
     mconcat $ map (\i -> word8Dec (LBS.index bs i)) [start..end]
+
+panic :: String -> a
+panic = error
