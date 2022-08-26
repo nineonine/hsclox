@@ -73,7 +73,7 @@ data CanAssign = CanAssign | CanNotAssign
 currentChunk :: CompilerT Chunk
 currentChunk  = do
     CS{..} <- get
-    return (chunk (objFunction current))
+    return current.objFunction.chunk
 
 errorAt :: Token -> Text -> CompilerT ()
 errorAt Token{..} message = do
@@ -87,17 +87,22 @@ errorAt Token{..} message = do
               TOKEN_EOF -> liftIO (hPutStr stderr " at end")
               TOKEN_ERROR -> return () -- nothing
               _otherwise ->
-                let msg = printf " at '%.*s'" len tokstart
-                in liftIO (hPutStr stderr msg)
+                let msg1 = printf " at '%.*s'" len tokstart
+                in liftIO (hPutStr stderr msg1)
             liftIO (hPutStr stderr (printf ": %s\n" message))
             modify' (\st@CS{..} ->
                 st { parser = parser { hadError = True }}))
 
 error :: Text -> CompilerT ()
-error msg = return ()
+error msg = do
+    parser <- getParser
+    errorAt parser.previousTok msg
+
 
 errorAtCurrent :: Text -> CompilerT ()
-errorAtCurrent msg = return ()
+errorAtCurrent msg = do
+    parser <- getParser
+    errorAt parser.currentTok msg
 
 advance :: CompilerT ()
 advance = return ()
