@@ -34,11 +34,11 @@ data ObjType
     | OBJ_STRING
     | OBJ_UPVALUE
 
-data Chunk = Chunk Int64
--- data Chunk = Chunk {
---     count :: Int
---   , code  :: ByteString
---   , lines :: Int
---   , linesCount :: Int
---   , constants :: ValueArray
--- }
+-- data Chunk = Chunk Int64
+data Chunk = Chunk {
+    count :: Int
+  , code  :: ByteString
+  , lines :: Int
+  , linesCount :: Int
+  -- , constants :: ValueArray
+}

@@ -3,8 +3,10 @@
 {-# LANGUAGE OverloadedRecordDot      #-}
 module Compiler where
 
+import Prelude hiding (error)
 import Control.Monad.Trans.State.Strict
 import Control.Monad.IO.Class (liftIO)
+import Data.Bits
 import Data.ByteString.Lazy hiding (hPutStr)
 import qualified Data.ByteString.Lazy.Char8 as LBS8
 import Data.Int
@@ -26,6 +28,9 @@ import Value
 -- The bytecode compiler / assembler
 
 foreign export ccall compileFromHs :: IO ()
+
+uINT16_MAX :: Word8
+uINT16_MAX = 65535
 
 compileFromHs :: IO ()
 compileFromHs = print "compiling in hs ..."
@@ -166,10 +171,19 @@ emitByte :: Word8 -> CompilerT ()
 emitByte byte = return ()
 
 emitBytes :: Word8 -> Word8 -> CompilerT ()
-emitBytes byte1 byte2 = return ()
+emitBytes byte1 byte2 = do
+  emitByte byte1
+  emitByte byte2
 
 emitLoop :: Int -> CompilerT ()
-emitLoop loopStart = return ()
+emitLoop loopStart = do
+    emitByte (toBytes OP_LOOP)
+    chunk <- currentChunk
+    let offset :: Word8 = fromIntegral (chunk.count - loopStart + 2)
+    if (offset > uINT16_MAX)
+    then error "Loop body too large."
+    else do emitByte ((offset `shiftR` 8) .&. 0xff)
+            emitByte (offset .&. 0xff)
 
 emitJump :: Word8 -> CompilerT Int
 emitJump  instruction = return 1
