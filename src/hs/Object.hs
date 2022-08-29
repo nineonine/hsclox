@@ -1,7 +1,8 @@
 module Object where
 
 import Data.ByteString.Lazy
-import Data.Int
+
+import Chunk
 
 data ObjFunction = ObjFunction {
     obj :: Obj
@@ -33,12 +34,3 @@ data ObjType
     | OBJ_NATIVE
     | OBJ_STRING
     | OBJ_UPVALUE
-
--- data Chunk = Chunk Int64
-data Chunk = Chunk {
-    count :: Int
-  , code  :: ByteString
-  , lines :: Int
-  , linesCount :: Int
-  -- , constants :: ValueArray
-}

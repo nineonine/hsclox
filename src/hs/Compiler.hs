@@ -1,6 +1,7 @@
 {-# LANGUAGE CPP                      #-}
 {-# LANGUAGE ForeignFunctionInterface #-}
 {-# LANGUAGE OverloadedRecordDot      #-}
+{-# LANGUAGE TypeApplications         #-}
 module Compiler where
 
 import Prelude hiding (error)
@@ -17,6 +18,7 @@ import Data.Word
 import System.IO (stderr, hPutStr)
 import Text.Printf
 
+import Chunk
 import Object
 import OpCode
 import Parser
@@ -29,11 +31,11 @@ import Value
 
 foreign export ccall compileFromHs :: IO ()
 
-uINT16_MAX :: Word8
+uINT16_MAX :: Word16
 uINT16_MAX = 65535
 
 compileFromHs :: IO ()
-compileFromHs = print "compiling in hs ..."
+compileFromHs = print @String "compiling in hs ..."
 
 type CompilerT = StateT CompilerState IO
 
@@ -63,6 +65,11 @@ getCurrentClass :: CompilerT ClassCompiler
 getCurrentClass = do
     CS{..} <- get
     return currentClass
+
+getCurrentChunk :: CompilerT Chunk
+getCurrentChunk = do
+    compiler <- getCurrent
+    return compiler.objFunction.chunk
 
 runScanner :: ScannerT a -> CompilerT a
 runScanner scanAction = do
@@ -119,7 +126,6 @@ error :: ByteString -> CompilerT ()
 error msg = do
     parser <- getParser
     errorAt parser.previousTok msg
-
 
 errorAtCurrent :: ByteString -> CompilerT ()
 errorAtCurrent msg = do
@@ -178,12 +184,12 @@ emitBytes byte1 byte2 = do
 emitLoop :: Int -> CompilerT ()
 emitLoop loopStart = do
     emitByte (toBytes OP_LOOP)
-    chunk <- currentChunk
-    let offset :: Word8 = fromIntegral (chunk.count - loopStart + 2)
+    chunk <- getCurrentChunk
+    let offset :: Word16 = fromIntegral (chunk.count - loopStart + 2)
     if (offset > uINT16_MAX)
     then error "Loop body too large."
-    else do emitByte ((offset `shiftR` 8) .&. 0xff)
-            emitByte (offset .&. 0xff)
+    else do emitByte (fromIntegral $ (offset `shiftR` 8) .&. 0xff)
+            emitByte (fromIntegral $ offset .&. 0xff)
 
 emitJump :: Word8 -> CompilerT Int
 emitJump  instruction = return 1

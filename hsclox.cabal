@@ -27,7 +27,8 @@ foreign-library hsclox-ffi
   default-language:   Haskell2010
 
   C-sources:          src/hs/ffi/hscompiler.c
-  other-modules:      Compiler
+  other-modules:      Chunk
+                    , Compiler
                     , Object
                     , OpCode
                     , Parser
@@ -37,8 +38,9 @@ foreign-library hsclox-ffi
                     , Value
 
   build-depends:      base
-                    , containers
                     , bytestring
+                    , containers
+                    , dlist
                     , text
                     , transformers
 

@@ -19,5 +19,8 @@ data ValueU
 data ValueArray = ValueArray {
     capacity :: Int
   , count    :: Int
-  , values   :: Value
+  , values   :: Maybe Value
 }
+
+initValueArray :: ValueArray
+initValueArray = ValueArray 0 0 Nothing
