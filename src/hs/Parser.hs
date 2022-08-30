@@ -41,6 +41,7 @@ data FunctionType
     | TYPE_INITIALIZER
     | TYPE_METHOD
     | TYPE_SCRIPT
+    deriving (Eq)
 
 data Loop = Loop {
     start      :: !Int64

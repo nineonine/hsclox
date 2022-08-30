@@ -209,8 +209,13 @@ emitJump  instruction = do
     return (chunk.count - 2)
 
 emitReturn :: CompilerT ()
-emitReturn = return ()
+emitReturn = do
+    ifM ((TYPE_INITIALIZER ==) . funType <$> getCurrent)
+        (emitBytes (toBytes OP_GET_LOCAL) 0)
+        (emitByte (toBytes OP_NIL))
+    emitByte (toBytes OP_RETURN)
 
+-- TODO: what to do with that constant write? hmm ...
 makeConstant :: Value -> CompilerT Word8
 makeConstant value = return 1
 
