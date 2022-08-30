@@ -201,7 +201,12 @@ emitLoop loopStart = do
             emitByte (fromIntegral $ offset .&. 0xff)
 
 emitJump :: Word8 -> CompilerT Int
-emitJump  instruction = return 1
+emitJump  instruction = do
+    emitByte instruction
+    emitByte 0xff
+    emitByte 0xff
+    chunk <- getCurrentChunk
+    return (chunk.count - 2)
 
 emitReturn :: CompilerT ()
 emitReturn = return ()
