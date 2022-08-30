@@ -174,12 +174,21 @@ match tokenType = do
         (advance >> return True)
 
 emitByte :: Word8 -> CompilerT ()
-emitByte byte = return ()
+emitByte byte = do
+    chunk <- getCurrentChunk
+    parser <- getParser
+    modify' $ \cs -> cs {
+      current = cs.current {
+        objFunction = cs.current.objFunction {
+          chunk = writeChunk chunk byte parser.previousTok.loc
+        }
+      }
+    }
 
 emitBytes :: Word8 -> Word8 -> CompilerT ()
 emitBytes byte1 byte2 = do
-  emitByte byte1
-  emitByte byte2
+    emitByte byte1
+    emitByte byte2
 
 emitLoop :: Int -> CompilerT ()
 emitLoop loopStart = do
