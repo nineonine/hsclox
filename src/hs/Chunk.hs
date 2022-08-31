@@ -8,7 +8,7 @@ import Data.Word
 import Value
 
 data Chunk = Chunk {
-    count :: Int -- is this needed?
+    count :: Int
   , code  :: Vector Word8
   , lines :: Int
   , linesCount :: Int

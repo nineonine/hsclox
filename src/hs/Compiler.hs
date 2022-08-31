@@ -90,9 +90,11 @@ data Compiler = Compiler {
     enclosing :: Compiler
   , objFunction :: ObjFunction
   , funType  :: FunctionType
-  , locals :: [Local]
+  , locals :: Vector Local
   , globals :: Globals
-  , localCount :: Int64
+  , localCount :: Int
+  , upvalues :: Vector Upvalue
+  , scopeDepth :: Int
   , loop :: Loop
 }
 
@@ -308,7 +310,19 @@ computeArgsByteSize code ip =
        -> panic "computeArgByteSize"
 
 startLoop :: Loop -> CompilerT ()
-startLoop loop = return ()
+startLoop loop = do
+    current <- getCurrent
+    chunk <- getCurrentChunk
+    let loop' = loop {
+          enclosing = current.loop
+        , start = chunk.count
+        , scopeDepth = current.scopeDepth
+      }
+    modify' $ \cs -> cs {
+      current = current {
+        loop = loop'
+      }
+    }
 
 endLoop :: CompilerT ()
 endLoop = return ()

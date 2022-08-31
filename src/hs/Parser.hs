@@ -44,8 +44,8 @@ data FunctionType
     deriving (Eq)
 
 data Loop = Loop {
-    start      :: !Int64
-  , body       :: !Int64
-  , scopeDepth :: !Int64
+    start      :: !Int
+  , body       :: !Int
+  , scopeDepth :: !Int
   , enclosing  :: !Loop
 }
