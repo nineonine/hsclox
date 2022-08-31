@@ -2,15 +2,16 @@
 #include <stdio.h>
 #include <string.h>
 
+#ifdef HS_INTEGRATION
 // Include Haskell FFI file, which we will use to initialize a Haskell runtime
 #include "hscompiler.h"
+#endif
 
 #include "common.h"
 #include "chunk.h"
 #include "debug.h"
 #include "utils.h"
 #include "vm.h"
-
 #include "examples.h"
 
 // static void constOp(Chunk* chunk, double i, int line) {
@@ -70,9 +71,11 @@ static void runFile(const char* path) {
 int main(int argc, char* argv[]) {
 
     // Initialize Haskell Runtime _before_ any calls to the Haskell code
+#ifdef HS_INTEGRATION
     hsCompilerInit();
     hscompile();
     hsCompilerExit();
+#endif
 
     initVM();
 

@@ -1,7 +1,8 @@
-UNAME := $(shell uname)
-GHC = ghc
-GHC_PKG = $(shell dirname $(shell which $(GHC)))/ghc-pkg
 CC = cc
+GHC = ghc
+
+UNAME := $(shell uname)
+GHC_PKG = $(shell dirname $(shell which $(GHC)))/ghc-pkg
 
 C_SRC_DIR := src/c
 HS_FFI_SRC_DIR := src/hs/ffi
@@ -36,10 +37,13 @@ $(C_SRC_DIR)/libhsclox-ffi.dylib:	## build interpeter
 	find dist-newstyle/ -name 'Compiler_stub.h' -exec cp {} $(C_SRC_DIR) \;
 
 build: $(C_SRC_DIR)/libhsclox-ffi.dylib
-	$(CC) $(CFLAGS) $(CPPFLAGS) $(SRCS) -o $(EXE) -I./$(C_SRC_DIR) -I./$(HS_FFI_SRC_DIR) -lhsclox-ffi -L./$(C_SRC_DIR)
+	$(CC) $(CFLAGS) $(CPPFLAGS) -DHS_INTEGRATION $(SRCS) -o $(EXE) -I./$(C_SRC_DIR) -I./$(HS_FFI_SRC_DIR) -lhsclox-ffi -L./$(C_SRC_DIR)
 ifeq ($(UNAME), Darwin)
 	install_name_tool -add_rpath @executable_path/$(C_SRC_DIR) $(EXE)
 endif
+
+buildc:	## build interpeter
+	$(CC) $(CFLAGS) $(CPPFLAGS) $(SRCS) -o $(EXE)
 
 run:	## run interpreter
 	@./$(EXE) $(SRC)
