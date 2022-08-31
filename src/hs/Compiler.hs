@@ -2,6 +2,7 @@
 {-# LANGUAGE ForeignFunctionInterface #-}
 {-# LANGUAGE OverloadedRecordDot      #-}
 {-# LANGUAGE TypeApplications         #-}
+{-# LANGUAGE MultiWayIf               #-}
 module Compiler where
 
 import Prelude hiding (error)
@@ -15,6 +16,7 @@ import Data.Int
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import Data.Text hiding (unpack)
+import Data.Vector (Vector)
 import qualified Data.Vector as V
 import Data.Word
 import System.IO (stderr, hPutStr)
@@ -246,8 +248,64 @@ patchJump offset = do
       }
     }
 
-computeArgsByteSize :: Word8 -> Int -> CompilerT Int
-computeArgsByteSize code ip = return 0
+computeArgsByteSize :: Vector Word8 -> Int -> Int
+computeArgsByteSize code ip =
+    if | toEnum (fromIntegral (code V.! ip))
+         `Prelude.elem`
+         [ OP_TRUE
+         , OP_FALSE
+         , OP_NIL
+         , OP_POP
+         , OP_EQUAL
+         , OP_GREATER
+         , OP_LESS
+         , OP_ADD
+         , OP_SUBTRACT
+         , OP_MULTIPLY
+         , OP_NOT
+         , OP_NEGATE
+         , OP_PRINT
+         , OP_STACK_DUP_1
+         , OP_CLOSE_UPVALUE
+         , OP_RETURN
+         , OP_INHERIT
+         ]
+       -> 0
+       | toEnum (fromIntegral (code V.! ip))
+         `Prelude.elem`
+         [ OP_CONSTANT
+         , OP_CONSTANT_LONG
+         , OP_POPN
+         , OP_SET_LOCAL
+         , OP_GET_LOCAL
+         , OP_SET_UPVALUE
+         , OP_GET_UPVALUE
+         , OP_SET_PROPERTY
+         , OP_GET_PROPERTY
+         , OP_SET_EXPR_PROPERTY
+         , OP_GET_EXPR_PROPERTY
+         , OP_CALL
+         , OP_GET_SUPER
+         , OP_GET_GLOBAL
+         , OP_DEFINE_GLOBAL
+         , OP_SET_GLOBAL
+         , OP_CLOSURE
+         , OP_CLASS
+         , OP_METHOD
+         ]
+       -> 1
+       | toEnum (fromIntegral (code V.! ip))
+         `Prelude.elem`
+         [ OP_JUMP
+         , OP_JUMP_IF_FALSE
+         , OP_JUMP_BREAK
+         , OP_LOOP
+         , OP_INVOKE
+         , OP_SUPER_INVOKE
+         ]
+       -> 2
+       | otherwise
+       -> panic "computeArgByteSize"
 
 startLoop :: Loop -> CompilerT ()
 startLoop loop = return ()
