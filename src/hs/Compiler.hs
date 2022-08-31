@@ -5,6 +5,7 @@
 module Compiler where
 
 import Prelude hiding (error)
+import Control.Monad (when)
 import Control.Monad.Trans.State.Strict
 import Control.Monad.IO.Class (liftIO)
 import Data.Bits
@@ -14,6 +15,7 @@ import Data.Int
 import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import Data.Text hiding (unpack)
+import qualified Data.Vector as V
 import Data.Word
 import System.IO (stderr, hPutStr)
 import Text.Printf
@@ -182,8 +184,9 @@ emitByte byte = do
         objFunction = cs.current.objFunction {
           chunk = writeChunk chunk byte parser.previousTok.loc
         }
-      }
-    }
+      } :: Compiler
+    } :: CompilerState
+
 
 emitBytes :: Word8 -> Word8 -> CompilerT ()
 emitBytes byte1 byte2 = do
@@ -225,7 +228,23 @@ emitConstant value = do
   emitBytes (toBytes OP_CONSTANT) c
 
 patchJump :: Int -> CompilerT ()
-patchJump offset = return ()
+patchJump offset = do
+    chunk <- getCurrentChunk
+    let jmp :: Word16 = fromIntegral (chunk.count - offset - 2)
+    when (jmp > uINT16_MAX)
+         (error "Too much code to jump over.")
+    modify' $ \cs -> cs {
+      current = cs.current {
+        objFunction = cs.current.objFunction {
+          chunk = cs.current.objFunction.chunk {
+            code = V.update cs.current.objFunction.chunk.code
+                            (V.fromList [ (offset    , fromIntegral ((jmp `shiftR` 8) .&. 0xff))
+                                        , (offset + 1, fromIntegral (jmp .&. 0xff))
+                                        ])
+          }
+        }
+      }
+    }
 
 computeArgsByteSize :: Word8 -> Int -> CompilerT Int
 computeArgsByteSize code ip = return 0

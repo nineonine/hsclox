@@ -40,9 +40,9 @@ foreign-library hsclox-ffi
   build-depends:      base
                     , bytestring
                     , containers
-                    , dlist
                     , text
                     , transformers
+                    , vector
 
   default-extensions:  DuplicateRecordFields
                      , RecordWildCards

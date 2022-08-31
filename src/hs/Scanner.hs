@@ -24,7 +24,7 @@ import Utils
 data Scanner = Scanner {
     stream  :: !ByteString
   , start   :: !Int64
-  , current :: !Int64
+  , cur     :: !Int64
   , line    :: !Int64
   , len     :: !Int64
 } deriving Show
@@ -37,42 +37,42 @@ initScanner src = return (Scanner src 0 0 1 (LBS.length src))
 isAtEnd :: ScannerT Bool
 isAtEnd = do
     Scanner{..} <- get
-    return (current >= len)
+    return (cur >= len)
 
 advance :: ScannerT Char
 advance = do
     s@Scanner{..} <- get
-    let c = LBS8.index stream current
-    put s{current = succ current}
+    let c = LBS8.index stream cur
+    put s{cur = succ cur}
     return c
 
 peek :: ScannerT Char
 peek = do
     Scanner{..} <- get
-    return (LBS8.index stream current)
+    return (LBS8.index stream cur)
 
 peekNext :: ScannerT Char
 peekNext =
     ifM isAtEnd
         (return ' ')
         (do Scanner{..} <- get
-            return (LBS8.index stream (current + 1)))
+            return (LBS8.index stream (cur + 1)))
 
 match :: Char -> ScannerT Bool
 match expected =
     ifM isAtEnd
         (return False)
         (do Scanner{..} <- get
-            let c = LBS8.index stream current
+            let c = LBS8.index stream cur
             if (c /= expected) then return False
             else do
-              modify' (\sc -> sc{current = succ current})
+              modify' (\sc -> sc{cur = succ cur})
               return True)
 
 makeToken :: TokenType -> ScannerT Token
 makeToken tokenType = do
     Scanner{..} <- get
-    let l  = current - start
+    let l  = cur - start
     return (Token stream tokenType start l line)
 
 errorToken :: ByteString -> ScannerT Token
@@ -113,7 +113,7 @@ checkKeyword :: Int64 -> Int64 -> ByteString -> TokenType
 checkKeyword st ln rest ty = do
     Scanner{..} <- get
     let bs = slice stream (start + st) ((start + st + ln))
-    if (current - start == st + ln
+    if (cur - start == st + ln
             &&  bs == rest)
         then return ty
         else return TOKEN_IDENTIFIER
@@ -124,11 +124,11 @@ identifierType = do
     case LBS8.index stream start of
         'a' -> checkKeyword 1 2 "nd" TOKEN_AND
         'b' -> checkKeyword 1 4 "reak" TOKEN_BREAK
-        'c' -> if current - start > 1
+        'c' -> if cur - start > 1
             then case (LBS8.index stream (start + 1)) of
                 'a' -> checkKeyword 2 2 "se" TOKEN_CASE
                 'l' -> checkKeyword 2 3 "ass" TOKEN_CLASS
-                'o' -> if current - start > 2 then
+                'o' -> if cur - start > 2 then
                        case (LBS8.index stream (start + 3)) of
                             's' -> checkKeyword 4 1 "t" TOKEN_CONST
                             't' -> checkKeyword 4 4 "inue" TOKEN_CONTINUE
@@ -138,7 +138,7 @@ identifierType = do
             else return TOKEN_IDENTIFIER
         'd' -> checkKeyword 1 6 "efault" TOKEN_DEFAULT
         'e' -> checkKeyword 1 3 "lse" TOKEN_ELSE
-        'f' -> if current - start > 1
+        'f' -> if cur - start > 1
             then case (LBS8.index stream (start + 1)) of
                 'a' -> checkKeyword 2 3 "lse" TOKEN_FALSE
                 'o' -> checkKeyword 2 1 "r" TOKEN_FOR
@@ -150,13 +150,13 @@ identifierType = do
         'o' -> checkKeyword 1 1 "r" TOKEN_OR
         'p' -> checkKeyword 1 4 "rint" TOKEN_PRINT
         'r' -> checkKeyword 1 5 "eturn" TOKEN_RETURN
-        's' -> if current - start > 1
+        's' -> if cur - start > 1
             then case (LBS8.index stream (start + 1)) of
                 'u' -> checkKeyword 2 3 "per" TOKEN_SUPER
                 'w' -> checkKeyword 2 4 "itch" TOKEN_SWITCH
                 _   -> return TOKEN_IDENTIFIER
             else return TOKEN_IDENTIFIER
-        't' -> if current - start > 1
+        't' -> if cur - start > 1
             then case (LBS8.index stream (start + 1)) of
                 'h' -> checkKeyword 2 2 "is" TOKEN_THIS
                 'r' -> checkKeyword 2 4 "itch" TOKEN_SWITCH
@@ -187,7 +187,7 @@ string = do
 scanToken :: ScannerT Token
 scanToken = do
     skipWhiteSpace
-    modify' $ \s@Scanner{..} -> (s {start = current})
+    modify' $ \s@Scanner{..} -> (s {start = cur})
     ifM isAtEnd
         (makeToken TOKEN_EOF)
         (do c <- advance

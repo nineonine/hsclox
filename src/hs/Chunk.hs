@@ -1,15 +1,15 @@
 {-# LANGUAGE OverloadedRecordDot #-}
 module Chunk where
 
-import Data.DList
 import Data.Int
+import Data.Vector
 import Data.Word
 
 import Value
 
 data Chunk = Chunk {
     count :: Int -- is this needed?
-  , code  :: DList Word8
+  , code  :: Vector Word8
   , lines :: Int
   , linesCount :: Int
   , constants :: ValueArray
